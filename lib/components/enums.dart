@@ -10,8 +10,8 @@ class ElginSize {
   const ElginSize._internal(this.value);
   final int value;
   static const MD = ElginSize._internal(0);
-  static const LG = ElginSize._internal(24);
-  static const XL = ElginSize._internal(36);
+  static const LG = ElginSize._internal(16);
+  static const XL = ElginSize._internal(24);
 }
 
 class ElginFont {
@@ -42,4 +42,27 @@ class ElginQrcodeCorrection {
   static const LEVEL_M = ElginQrcodeCorrection._internal(2);
   static const LEVEL_Q = ElginQrcodeCorrection._internal(3);
   static const LEVEL_H = ElginQrcodeCorrection._internal(4);
+}
+
+class EliginBarcodeType {
+  const EliginBarcodeType._internal(this.value);
+  final int value;
+  static const UPCA = EliginBarcodeType._internal(0);
+  static const UPCE = EliginBarcodeType._internal(1);
+  static const JAN13 = EliginBarcodeType._internal(2);
+  static const JAN8 = EliginBarcodeType._internal(3);
+  static const CODE39 = EliginBarcodeType._internal(4);
+  static const ITF = EliginBarcodeType._internal(5);
+  static const CODEBAR = EliginBarcodeType._internal(6);
+  static const CODE93 = EliginBarcodeType._internal(7);
+  static const CODE128 = EliginBarcodeType._internal(8);
+}
+
+class ElginBarcodeTextPosition {
+  const ElginBarcodeTextPosition._internal(this.value);
+  final int value;
+  static const NO_TEXT = ElginBarcodeTextPosition._internal(4);
+  static const TEXT_ABOVE = ElginBarcodeTextPosition._internal(1);
+  static const TEXT_UNDER = ElginBarcodeTextPosition._internal(2);
+  static const BOTH = ElginBarcodeTextPosition._internal(3);
 }

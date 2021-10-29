@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elgin/components/enums.dart';
 import 'package:elgin/elgin.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,13 @@ class Printer {
 
     _instance ??= Printer._();
     return _instance!;
+  }
+
+  Future<void> line({
+    String ch = '-',
+    int len = 31,
+  }) async {
+    await printString(List.filled(len, ch[0]).join());
   }
 
   Future<int> printString(
@@ -32,24 +41,18 @@ class Printer {
     return await platform?.invokeMethod('printText', {"textArgs": mapParam});
   }
 
-  // Future<int> sendPrinterBarCode({
-  //   String barCodeType = "EAN 8",
-  //   String align = "Esquerda",
-  //   String text = "Elgin Dev",
-  //   int height = 120,
-  //   int width = 4,
-  // }) async {
-  //   Map<String, dynamic> mapParam = new Map();
-  //   mapParam['barCodeType'] = barCodeType;
-  //   mapParam['text'] = text;
-  //   mapParam['height'] = height;
-  //   mapParam['align'] = align;
-  //   mapParam['width'] = width;
-  //   mapParam['typePrinter'] = "printerBarCode";
-  //   return await _sendFunctionToAndroid(mapParam);
-  // }
+  Future<int> printBarCode(String text, {EliginBarcodeType barcodeType = EliginBarcodeType.JAN8, ElginAlign align = ElginAlign.RIGHT, int height = 50, int width = 6, ElginBarcodeTextPosition textPosition = ElginBarcodeTextPosition.NO_TEXT}) async {
+    Map<String, dynamic> mapParam = new Map();
+    mapParam['barCodeType'] = barcodeType.value;
+    mapParam['text'] = text;
+    mapParam['height'] = height;
+    mapParam['align'] = align.value;
+    mapParam['width'] = width;
+    mapParam['textPosition'] = textPosition.value;
+    return await platform?.invokeMethod("printBarCode", {'barcodeArgs': mapParam});
+  }
 
-  Future<int> printQrcode(
+  Future<int> printQRCode(
     String text, {
     ElginQrcodeSize size = ElginQrcodeSize.SIZE4,
     ElginAlign align = ElginAlign.CENTER,
@@ -63,15 +66,13 @@ class Printer {
     return await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam});
   }
 
-  // Future<int> sendPrinterImage(String pathImage, bool isBase64) async {
-  //   Map<String, dynamic> mapParam = new Map();
+  Future<int> printImage(File image, bool isBase64) async {
+    Map<String, dynamic> mapParam = new Map();
 
-  //   mapParam['typePrinter'] = "printerImage";
-  //   mapParam['pathImage'] = pathImage;
-  //   mapParam['isBase64'] = isBase64;
-
-  //   return await _sendFunctionToAndroid(mapParam);
-  // }
+    mapParam['path'] = image.path;
+    mapParam['isBase64'] = isBase64;
+    return await platform?.invokeMethod('printImage', {'imageArgs': mapParam});
+  }
 
   // Future<int> sendPrinterNFCe(String xmlNFCe, int indexcsc, String csc, int param) async {
   //   Map<String, dynamic> mapParam = new Map();
@@ -118,7 +119,7 @@ class Printer {
     return status;
   }
 
-  Future<int> cut(int lines) async {
+  Future<int> cut({int lines = 0}) async {
     return await platform?.invokeMethod("cutPaper", {'lines': lines});
   }
 

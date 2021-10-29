@@ -97,12 +97,26 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
         result.success(resultQrcode);
 
         break;
+
+      case "printBarCode":
+        HashMap barcodeArgs = call.argument("barcodeArgs");
+        int resultBarCode = printer.imprimeBarCode(barcodeArgs);
+        Log.d("elgin" , "printBarCode " + resultBarCode);
+        result.success(resultBarCode);
+
+        break;
+
+      case "printImage":
+        HashMap imageArgs = call.argument("imageArgs");
+        int resultImage = printer.imprimeImagem(imageArgs);
+        Log.d("elgin" , "printImage " + resultImage);
+        result.success(resultImage);
+
+        break;
+
+
     }
-    // if (call.method.equals("getPlatformVersion")) {
-    //   result.success("Android " + android.os.Build.VERSION.RELEASE);
-    // } else {
-    //   result.notImplemented();
-    // }
+
   }
 
   @Override
