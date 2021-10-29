@@ -115,6 +115,15 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
         break;
 
 
+      case "printRaw":
+        HashMap rawArgs = call.argument("rawArgs");
+        int resultRaw = printer.printRaw(rawArgs);
+        Log.d("elgin" , "printRaw " + resultRaw);
+        result.success(resultRaw);
+
+        break;
+
+
     }
 
   }

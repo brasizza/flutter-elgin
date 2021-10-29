@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.elgin.e1.Impressora.Termica;
+import com.elgin.e1.Impressora.Utilidades.Inteiro;
 
 import java.io.File;
 import java.util.Map;
@@ -59,27 +60,7 @@ public class Printer {
     }
 
 
-//    private int codeOfBarCode(String barCodeName) {
-//        if (barCodeName.equals("UPC-A"))
-//            return 0;
-//        else if (barCodeName.equals("UPC-E"))
-//            return 1;
-//        else if (barCodeName.equals("EAN 13") || barCodeName.equals("JAN 13"))
-//            return 2;
-//        else if (barCodeName.equals("EAN 8") || barCodeName.equals("JAN 8"))
-//            return 3;
-//        else if (barCodeName.equals("CODE 39"))
-//            return 4;
-//        else if (barCodeName.equals("ITF"))
-//            return 5;
-//        else if (barCodeName.equals("CODE BAR"))
-//            return 6;
-//        else if (barCodeName.equals("CODE 93"))
-//            return 7;
-//        else if (barCodeName.equals("CODE 128"))
-//            return 8;
-//        else return 0;
-//    }
+
 
 
     public int imprimeBarCode(Map map) {
@@ -116,6 +97,19 @@ public class Printer {
         Termica.DefinePosicao(align);
         result = Termica.ImpressaoQRCode(text, size, correctionLevel);
         return result;
+    }
+
+
+    public int printRaw(Map map) {
+        byte[]  dataRaw =  (byte[]) map.get("data");
+        int totalbytes = (Integer) map.get("bytes");
+        Inteiro leu = new Inteiro(1);
+        byte[] ler = new byte[1000];
+        int ret =  Termica.DirectIO(dataRaw,totalbytes , ler, leu);
+
+        Log.d("elgin", "\n Ret: %d ; Leu: %d ; Dados lidos: %s \n" + " " + ret + " " +  leu.getValor() + " " + new String(ler));
+        return ret;
+
     }
 
     public int imprimeImagem(Map map) {

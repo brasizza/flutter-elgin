@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:elgin/components/enums.dart';
 import 'package:elgin/elgin.dart';
@@ -72,6 +73,14 @@ class Printer {
     mapParam['path'] = image.path;
     mapParam['isBase64'] = isBase64;
     return await platform?.invokeMethod('printImage', {'imageArgs': mapParam});
+  }
+
+  Future<int> printRaw(List<int> rawList) async {
+    Map<String, dynamic> mapParam = new Map();
+    Uint8List _list = Uint8List.fromList(rawList);
+    mapParam['data'] = _list;
+    mapParam['bytes'] = _list.lengthInBytes;
+    return await platform?.invokeMethod('printRaw', {'rawArgs': mapParam});
   }
 
   // Future<int> sendPrinterNFCe(String xmlNFCe, int indexcsc, String csc, int param) async {
