@@ -50,6 +50,12 @@ class _HomeState extends State<Home> {
     super.initState();
 
     _bindingPrinter().then((int? isBind) async {
+      Elgin.printer.libVersion.then((String version) {
+        setState(() {
+          printerVersion = version;
+        });
+      });
+
       setState(() {
         printBinded = isBind == 0 ? true : false;
       });
@@ -65,10 +71,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('ELGIN printer Example'),
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: const Text('ELGIN printer Example'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(
@@ -226,35 +233,91 @@ class _HomeState extends State<Home> {
               ),
             ),
             const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      await Elgin.printer.cut();
-                    },
-                    child: const Text('CUT PAPER')),
-              ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Elgin.printer.cut();
+                        },
+                        child: const Text('CUT PAPER')),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          final List<int> _escPos = await _customEscPos();
+                          await Elgin.printer.printRaw(_escPos);
+                        },
+                        child: const Text('Custom ESC/POS to print')),
+                  ]),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                ElevatedButton(onPressed: () async {}, child: const Text('TICKET EXAMPLE')),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      final List<int> _escPos = await _customEscPos();
-                      await Elgin.printer.printRaw(_escPos);
-                    },
-                    child: const Text('Custom ESC/POS to print')),
-              ]),
+            const Divider(),
+            Text("Sensors"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          int _sensor = await Elgin.printer.statusSensor();
+                          String messageSensor = 'Sensor is OK';
+                          if (_sensor == 6) {
+                            messageSensor = 'Paper is running out!';
+                          }
+                          if (_sensor == 7) {
+                            messageSensor = 'No paper!';
+                          }
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(messageSensor)));
+                        },
+                        child: const Text('Paper sensor')),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Elgin.printer.elginCashier();
+                        },
+                        child: const Text('Elgin cashier')),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Elgin.printer.customCashier(1, 2, 3);
+                        },
+                        child: const Text('Custom cashier')),
+                  ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          await Elgin.printer.beep(5, 10, 20);
+                        },
+                        child: const Text('Beep')),
+                  ]),
+                ),
+              ],
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 

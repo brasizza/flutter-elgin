@@ -106,8 +106,6 @@ public class Printer {
         Inteiro leu = new Inteiro(1);
         byte[] ler = new byte[1000];
         int ret =  Termica.DirectIO(dataRaw,totalbytes , ler, leu);
-
-        Log.d("elgin", "\n Ret: %d ; Leu: %d ; Dados lidos: %s \n" + " " + ret + " " +  leu.getValor() + " " + new String(ler));
         return ret;
 
     }
@@ -157,9 +155,37 @@ public class Printer {
         return Termica.StatusImpressora(1);
     }
 
-    public int abrirGaveta() { return Termica.AbreGavetaElgin(); }
-
     public int statusSensorPapel() {
         return Termica.StatusImpressora(3);
     }
+
+    public int statusEjetor() {
+        return Termica.StatusImpressora(4);
+    }
+
+    public int abrirGavetaElgin() { return Termica.AbreGavetaElgin(); }
+
+    public int abrirGaveta(Map map){
+        int pin = (int) map.get("pin");
+        int it = (int) map.get("it");
+        int dp = (int) map.get("dp");
+        return Termica.AbreGaveta(pin,it,dp);
+    }
+
+
+    public int sinalSonoro(Map map){
+        int qtdSinal = (int) map.get("times");
+        int st = (int) map.get("st");
+        int ft = (int) map.get("ft");
+        return Termica.SinalSonoro(qtdSinal,st,ft);
+    }
+
+
+    public String versaoImpressora(){
+        return Termica.GetVersaoDLL();
+    }
+
+
+    public int InicializaImpressora(){ return  Termica.InicializaImpressora(); }
+
 }

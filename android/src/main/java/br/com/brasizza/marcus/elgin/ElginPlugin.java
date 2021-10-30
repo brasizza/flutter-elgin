@@ -66,6 +66,12 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
         result.success(true);
         break;
 
+
+      case "reset":
+        int resultReset = printer.InicializaImpressora();
+        result.success(resultReset);
+        break;
+
       case "printText":
         HashMap map = call.argument("textArgs");
         int resultPrintText = printer.imprimeTexto(map);
@@ -120,9 +126,48 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
         int resultRaw = printer.printRaw(rawArgs);
         Log.d("elgin" , "printRaw " + resultRaw);
         result.success(resultRaw);
-
         break;
 
+
+      case "statusSensor":
+        int statusSensor = printer.statusSensorPapel();
+        result.success(statusSensor);
+        break;
+
+
+      case "statusEjector":
+        int statusEjetor = printer.statusEjetor();
+        result.success(statusEjetor);
+        break;
+
+      case "statusCashier":
+        int statusCashier = printer.statusGaveta();
+        result.success(statusCashier);
+        break;
+
+      case "elginCashier":
+        int elginCashier = printer.abrirGavetaElgin();
+        result.success(elginCashier);
+        break;
+
+
+      case "customCashier":
+        HashMap casherArgs = call.argument("cashierArgs");
+        int customCashier = printer.abrirGaveta(casherArgs);
+        result.success(customCashier);
+        break;
+
+
+      case "beep":
+        HashMap beepArgs = call.argument("beepArgs");
+        int beepReturn = printer.sinalSonoro(beepArgs);
+        result.success(beepReturn);
+        break;
+
+      case "libVersion":
+        String versionReturn = printer.versaoImpressora();
+        result.success(versionReturn);
+        break;
 
     }
 
