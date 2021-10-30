@@ -52,11 +52,8 @@ flutter {
 }
 
 dependencies {
-    
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation files('libs/minipdvm8.aar')
-    implementation files('libs/e1-v1.0.6-release.aar')
-
+    implementation "androidx.startup:startup-runtime:1.0.0"
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
 
 

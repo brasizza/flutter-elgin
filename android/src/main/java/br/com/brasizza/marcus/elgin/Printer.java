@@ -3,7 +3,6 @@ import android.app.Activity;
 import android.util.Base64;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.elgin.e1.Impressora.Termica;
 import com.elgin.e1.Impressora.Utilidades.Inteiro;
@@ -17,7 +16,6 @@ public class Printer {
 
     public Printer(Activity activity) {
         this.mActivity = activity;
-        Termica.setContext(mActivity);
     }
 
     public int printerInternalImpStart() {
@@ -65,25 +63,12 @@ public class Printer {
 
     public int imprimeBarCode(Map map) {
         String text = (String) map.get("text");
-
-        Log.d("elgin" , "texto = " + text);
-
         int barCodeType =  (Integer) map.get("barCodeType");
-
-        Log.d("elgin" , "barCodeType = " + barCodeType);
-
         int height = (Integer) map.get("height");
-        Log.d("elgin" , "height = " + height);
         int width = (Integer) map.get("width");
-        Log.d("elgin" , "width = " + width);
         int textPosition = (Integer) map.get("textPosition");
-        Log.d("elgin" , "textPosition = " + textPosition);
-
         int align = (Integer) map.get("align");
-        Log.d("elgin" , "align = " + align);
-
         Termica.DefinePosicao(align);
-
         return Termica.ImpressaoCodigoBarras(barCodeType, text, height, width, textPosition);
     }
 
