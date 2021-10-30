@@ -27,12 +27,14 @@ class Printer {
   ///*connect
   ///
   ///Connect the printer to use the methods below
-  Future<int?> connect() async => await platform?.invokeMethod('startInternalPrinter') ?? 0;
+  Future<int?> connect() async =>
+      await platform?.invokeMethod('startInternalPrinter') ?? 0;
 
   ///*disconnect
   ///
   ///Disconnect the printer
-  Future<int?> disconnect() async => await platform?.invokeMethod('printerStop') ?? 0;
+  Future<int?> disconnect() async =>
+      await platform?.invokeMethod('printerStop') ?? 0;
 
   ///*customCashier
   ///
@@ -42,28 +44,33 @@ class Printer {
     mapParam['pin'] = pin;
     mapParam['it'] = it;
     mapParam['dp'] = dp;
-    return await platform?.invokeMethod("customCashier", {'cashierArgs': mapParam});
+    return await platform
+        ?.invokeMethod("customCashier", {'cashierArgs': mapParam});
   }
 
   ///*cut
   ///
   ///Cut a line and jump N lines before
-  Future<int> cut({int lines = 0}) async => await platform?.invokeMethod("cutPaper", {'lines': lines});
+  Future<int> cut({int lines = 0}) async =>
+      await platform?.invokeMethod("cutPaper", {'lines': lines});
 
   ///*elginCashier
   ///
   ///If you have an elgin cashier, you can just open it with this!
-  Future<int> elginCashier() async => await platform?.invokeMethod('elginCashier');
+  Future<int> elginCashier() async =>
+      await platform?.invokeMethod('elginCashier');
 
   ///*feed
   ///
   ///Jump n lines
-  Future<int> feed(int lines) async => await platform?.invokeMethod('feedLine', {'lines': lines});
+  Future<int> feed(int lines) async =>
+      await platform?.invokeMethod('feedLine', {'lines': lines});
 
   ///*libVersion
   ///
   ///Show the version that the software is using at this moment
-  Future<String> get libVersion async => await platform?.invokeMethod('libVersion');
+  Future<String> get libVersion async =>
+      await platform?.invokeMethod('libVersion');
 
   ///*line
   ///
@@ -76,7 +83,13 @@ class Printer {
   ///*printBarCode
   ///
   ///Print a bar code with every [barcodeType] avaliable with size and [textPosition] , but some printers dont't allow that
-  Future<int> printBarCode(String text, {EliginBarcodeType barcodeType = EliginBarcodeType.JAN8, ElginAlign align = ElginAlign.RIGHT, int height = 50, int width = 6, ElginBarcodeTextPosition textPosition = ElginBarcodeTextPosition.NO_TEXT}) async {
+  Future<int> printBarCode(String text,
+      {EliginBarcodeType barcodeType = EliginBarcodeType.JAN8,
+      ElginAlign align = ElginAlign.RIGHT,
+      int height = 50,
+      int width = 6,
+      ElginBarcodeTextPosition textPosition =
+          ElginBarcodeTextPosition.NO_TEXT}) async {
     await reset();
     Map<String, dynamic> mapParam = new Map();
     mapParam['barCodeType'] = barcodeType.value;
@@ -85,7 +98,8 @@ class Printer {
     mapParam['align'] = align.value;
     mapParam['width'] = width;
     mapParam['textPosition'] = textPosition.value;
-    return await platform?.invokeMethod("printBarCode", {'barcodeArgs': mapParam});
+    return await platform
+        ?.invokeMethod("printBarCode", {'barcodeArgs': mapParam});
   }
 
   ///*printImage
@@ -114,7 +128,8 @@ class Printer {
     mapParam['align'] = align.value;
     mapParam['correction'] = correction.value;
     mapParam['text'] = text;
-    return await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam});
+    return await platform
+        ?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam});
   }
 
   ///*printRaw
@@ -162,17 +177,20 @@ class Printer {
   ///*statusCashier
   ///
   ///Check if there is a chasier in the device or if it's working and everything else
-  Future<int> statusCashier() async => await platform?.invokeMethod('statusCashier');
+  Future<int> statusCashier() async =>
+      await platform?.invokeMethod('statusCashier');
 
   ///*statusEjetor
   ///
   ///Check the status of the ejector hardware
-  Future<int> statusEjetor() async => await platform?.invokeMethod('statusEjector');
+  Future<int> statusEjetor() async =>
+      await platform?.invokeMethod('statusEjector');
 
   ///*statusSensor
   ///
   ///Check the status of the paper sensor hardware
-  Future<int> statusSensor() async => await platform?.invokeMethod('statusSensor');
+  Future<int> statusSensor() async =>
+      await platform?.invokeMethod('statusSensor');
 
   ///*instance
   ///

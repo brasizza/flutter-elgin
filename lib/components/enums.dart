@@ -1,3 +1,6 @@
+///*ElginAlign
+///
+///Class to set the alignment to the objects in the paper
 class ElginAlign {
   const ElginAlign._internal(this.value);
   final int value;
@@ -6,6 +9,9 @@ class ElginAlign {
   static const RIGHT = ElginAlign._internal(2);
 }
 
+///*ElginSize
+///
+///Class to set the size to text in the paper
 class ElginSize {
   const ElginSize._internal(this.value);
   final int value;
@@ -14,6 +20,9 @@ class ElginSize {
   static const XL = ElginSize._internal(24);
 }
 
+///*ElginFont
+///
+///Change the font
 class ElginFont {
   const ElginFont._internal(this.value);
   final int value;
@@ -24,6 +33,9 @@ class ElginFont {
   static const REVERSE = ElginFont._internal(4);
 }
 
+///*ElginQrcodeSize
+///
+///Change the size of the qrcode between 1 and 6
 class ElginQrcodeSize {
   const ElginQrcodeSize._internal(this.value);
   final int value;
@@ -35,6 +47,9 @@ class ElginQrcodeSize {
   static const SIZE6 = ElginQrcodeSize._internal(6);
 }
 
+///*ElginQrcodeCorrection
+///
+///Qrcode correction between low and high
 class ElginQrcodeCorrection {
   const ElginQrcodeCorrection._internal(this.value);
   final int value;
@@ -44,6 +59,9 @@ class ElginQrcodeCorrection {
   static const LEVEL_H = ElginQrcodeCorrection._internal(4);
 }
 
+///*EliginBarcodeType
+///
+///All the barcode types to print any barcode
 class EliginBarcodeType {
   const EliginBarcodeType._internal(this.value);
   final int value;
@@ -58,6 +76,9 @@ class EliginBarcodeType {
   static const CODE128 = EliginBarcodeType._internal(8);
 }
 
+///*ElginBarcodeTextPosition
+///
+///Where in the barcode the text will be show
 class ElginBarcodeTextPosition {
   const ElginBarcodeTextPosition._internal(this.value);
   final int value;

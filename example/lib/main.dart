@@ -136,24 +136,28 @@ class _HomeState extends State<Home> {
                 children: [
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Hello I\'m bold', isBold: true);
+                        await Elgin.printer
+                            .printString('Hello I\'m bold', isBold: true);
                       },
                       child: const Text('Bold Text')),
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Normal font', fontSize: ElginSize.MD);
+                        await Elgin.printer
+                            .printString('Normal font', fontSize: ElginSize.MD);
                         await Elgin.printer.feed(2);
                       },
                       child: const Text('Normal font')),
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Large font', fontSize: ElginSize.LG);
+                        await Elgin.printer
+                            .printString('Large font', fontSize: ElginSize.LG);
                         await Elgin.printer.feed(2);
                       },
                       child: const Text('Large font')),
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Very large font', fontSize: ElginSize.XL);
+                        await Elgin.printer.printString('Very large font',
+                            fontSize: ElginSize.XL);
                         await Elgin.printer.feed(2);
                       },
                       child: const Text('Very large font')),
@@ -167,19 +171,26 @@ class _HomeState extends State<Home> {
                 children: [
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Algin right', align: ElginAlign.RIGHT);
+                        await Elgin.printer.printString('Algin right',
+                            align: ElginAlign.RIGHT);
                         await Elgin.printer.feed(2);
                       },
                       child: const Text('Align right')),
                   ElevatedButton(
                       onPressed: () async {
-                        await Elgin.printer.printString('Algin left', align: ElginAlign.RIGHT);
+                        await Elgin.printer
+                            .printString('Algin left', align: ElginAlign.RIGHT);
                         await Elgin.printer.feed(2);
                       },
                       child: const Text('Align left')),
                   ElevatedButton(
                     onPressed: () async {
-                      await Elgin.printer.printString('Align center/ LARGE TEXT AND BOLD', align: ElginAlign.CENTER, isBold: true, fontSize: ElginSize.XL, isUnderline: true);
+                      await Elgin.printer.printString(
+                          'Align center/ LARGE TEXT AND BOLD',
+                          align: ElginAlign.CENTER,
+                          isBold: true,
+                          fontSize: ElginSize.XL,
+                          isUnderline: true);
                       await Elgin.printer.feed(2);
                     },
                     child: const Text('Align center'),
@@ -194,10 +205,12 @@ class _HomeState extends State<Home> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      Uint8List byte = await _getImageFromAsset('assets/images/dash.jpeg');
+                      Uint8List byte =
+                          await _getImageFromAsset('assets/images/dash.jpeg');
                       Directory tempPath = await getTemporaryDirectory();
                       File file = File('${tempPath.path}/dash.jpg');
-                      await file.writeAsBytes(byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes));
+                      await file.writeAsBytes(byte.buffer
+                          .asUint8List(byte.offsetInBytes, byte.lengthInBytes));
                       await Elgin.printer.printImage(file, false);
                     },
                     child: Column(
@@ -213,10 +226,14 @@ class _HomeState extends State<Home> {
                   GestureDetector(
                     onTap: () async {
                       // convert image to Uint8List format
-                      Uint8List byte = (await NetworkAssetBundle(Uri.parse(url)).load(url)).buffer.asUint8List();
+                      Uint8List byte =
+                          (await NetworkAssetBundle(Uri.parse(url)).load(url))
+                              .buffer
+                              .asUint8List();
                       Directory tempPath = await getTemporaryDirectory();
                       File file = File('${tempPath.path}/onlineImage.jpg');
-                      await file.writeAsBytes(byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes));
+                      await file.writeAsBytes(byte.buffer
+                          .asUint8List(byte.offsetInBytes, byte.lengthInBytes));
                       await Elgin.printer.printImage(file, false);
                     },
                     child: Column(
@@ -238,24 +255,28 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          await Elgin.printer.cut();
-                        },
-                        child: const Text('CUT PAPER')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              await Elgin.printer.cut();
+                            },
+                            child: const Text('CUT PAPER')),
+                      ]),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          final List<int> _escPos = await _customEscPos();
-                          await Elgin.printer.printRaw(_escPos);
-                        },
-                        child: const Text('Custom ESC/POS to print')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              final List<int> _escPos = await _customEscPos();
+                              await Elgin.printer.printRaw(_escPos);
+                            },
+                            child: const Text('Custom ESC/POS to print')),
+                      ]),
                 ),
               ],
             ),
@@ -266,51 +287,60 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          int _sensor = await Elgin.printer.statusSensor();
-                          String messageSensor = 'Sensor is OK';
-                          if (_sensor == 6) {
-                            messageSensor = 'Paper is running out!';
-                          }
-                          if (_sensor == 7) {
-                            messageSensor = 'No paper!';
-                          }
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(messageSensor)));
-                        },
-                        child: const Text('Paper sensor')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              int _sensor = await Elgin.printer.statusSensor();
+                              String messageSensor = 'Sensor is OK';
+                              if (_sensor == 6) {
+                                messageSensor = 'Paper is running out!';
+                              }
+                              if (_sensor == 7) {
+                                messageSensor = 'No paper!';
+                              }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(messageSensor)));
+                            },
+                            child: const Text('Paper sensor')),
+                      ]),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          await Elgin.printer.elginCashier();
-                        },
-                        child: const Text('Elgin cashier')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              await Elgin.printer.elginCashier();
+                            },
+                            child: const Text('Elgin cashier')),
+                      ]),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          await Elgin.printer.customCashier(1, 2, 3);
-                        },
-                        child: const Text('Custom cashier')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              await Elgin.printer.customCashier(1, 2, 3);
+                            },
+                            child: const Text('Custom cashier')),
+                      ]),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          await Elgin.printer.beep(5, 10, 20);
-                        },
-                        child: const Text('Beep')),
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              await Elgin.printer.beep(5, 10, 20);
+                            },
+                            child: const Text('Beep')),
+                      ]),
                 ),
               ],
             ),
@@ -323,7 +353,8 @@ class _HomeState extends State<Home> {
 
 Future<Uint8List> readFileBytes(String path) async {
   ByteData fileData = await rootBundle.load(path);
-  Uint8List fileUnit8List = fileData.buffer.asUint8List(fileData.offsetInBytes, fileData.lengthInBytes);
+  Uint8List fileUnit8List = fileData.buffer
+      .asUint8List(fileData.offsetInBytes, fileData.lengthInBytes);
   return fileUnit8List;
 }
 
@@ -336,14 +367,21 @@ Future<List<int>> _customEscPos() async {
   final generator = Generator(PaperSize.mm58, profile);
   List<int> bytes = [];
 
-  bytes += generator.text('Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
+  bytes += generator.text(
+      'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
   bytes += generator.text('Bold text', styles: const PosStyles(bold: true));
-  bytes += generator.text('Reverse text', styles: const PosStyles(reverse: true));
-  bytes += generator.text('Underlined text', styles: const PosStyles(underline: true), linesAfter: 1);
-  bytes += generator.text('Align left', styles: const PosStyles(align: PosAlign.left));
-  bytes += generator.text('Align center', styles: const PosStyles(align: PosAlign.center));
-  bytes += generator.text('Align right', styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
-  bytes += generator.qrcode('Barcode by escpos', size: QRSize.Size4, cor: QRCorrection.H);
+  bytes +=
+      generator.text('Reverse text', styles: const PosStyles(reverse: true));
+  bytes += generator.text('Underlined text',
+      styles: const PosStyles(underline: true), linesAfter: 1);
+  bytes += generator.text('Align left',
+      styles: const PosStyles(align: PosAlign.left));
+  bytes += generator.text('Align center',
+      styles: const PosStyles(align: PosAlign.center));
+  bytes += generator.text('Align right',
+      styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
+  bytes += generator.qrcode('Barcode by escpos',
+      size: QRSize.Size4, cor: QRCorrection.H);
   bytes += generator.feed(2);
 
   bytes += generator.row([
