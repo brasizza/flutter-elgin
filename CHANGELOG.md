@@ -1,3 +1,5 @@
+## 0.1.5
+-   Limpeza do código do package, removendo arquivos desnecessários
 ## 0.1.4
 -   Correção do README
 
