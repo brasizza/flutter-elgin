@@ -1,3 +1,7 @@
+## 0.1.4
+-   Correção do README
+
+
 ## 0.1.3
 -   Correção do método de desconectar que estava chamando o mehotdChannel errado
 

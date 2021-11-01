@@ -30,6 +30,7 @@ dependencies {
         ... Resto do seu application aqui
 
 >
+```
 
 e assim seu projeto estará funcionando.
 
@@ -41,15 +42,14 @@ Este package tem como finalidade ajudar os desenvolvedores que precisam utilizar
 
  ## Package foi testado em:
 ```bash
-Mini PDV M8
+Mini PDV M8 
 Mini PDV M10
 Virtual Printer - https://play.google.com/store/apps/details?id=pl.glpro.virtualthermalprinter (PAGO)
 EPSON TM-20 -  (Não funciona todas os modelos de impressão da impressao, mas aceita o esc pos)
 BLUETOOTH PT-380  - COMPEX (Não funciona muito bem o escpos e impressão de imagem)
-
 ```
-### Portanto se você quiser ajudar a homologar mais aparelhos me contate para que possamos agilizar esse processo   
 
+### Portanto se você quiser ajudar a homologar mais aparelhos me contate para que possamos agilizar esse processo   
 ## O que o package faz até o momento  (além de conectar e desconectar a impressora)
 
 

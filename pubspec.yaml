@@ -1,6 +1,6 @@
 name: elgin
 description: Este package tem como finalidade a comunicação de um jeito fácil com vários equipamentos elgin, como SAT, impressoras térmicas e mini PDVs
-version: 0.1.3
+version: 0.1.4
 homepage: https://github.com/brasizza/flutter-elgin
 
 environment:
