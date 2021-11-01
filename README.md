@@ -8,7 +8,7 @@ Como se trata de um compomente que se comunica com libs externas, serão necess�
 
 2 - Baixar a última versão do sdk que estiver disponivel [SDK E1](https://github.com/ElginDeveloperCommunity/PDV_Android_M8_M10/blob/9f8f39a340176170e6b011473b49dae19462bded/Bibliotecas/E1_impressora01.04.04_Android.zip) - **No momento desse readme a versão das libs está em v1.0.10**
 
-3 - ir no seu projeto , pasta *android/app* m criar uma pasta chamada **libs** e colocar todos os arquivos .aar lá dentro
+3 - ir no seu projeto , pasta **android/app** e criar uma pasta chamada **libs** e colocar todos os arquivos .aar lá dentro
 
 4 - dentro da pasta app ainda, iremos precisar modificar o build.gradle, pois como ele utiliza libs de fora, também precisamos incluir no nosso package. No final do seu **android/app/build.gradle**, você irá colocar seguinte informação
 
