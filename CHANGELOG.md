@@ -1,3 +1,6 @@
+## 0.1.1
+- Formatação do código
+
 ## 0.1.0
 
 * Melhorias no código
