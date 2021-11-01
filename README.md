@@ -1,5 +1,5 @@
 # elgin
-Package para trabalhar com os componentes da elgin
+<h1> Package para trabalhar com os componentes da elgin <strong>SOMENTE em ANDROID! </strong></h1>
 
 ## INSTALANDO [EXTREMAMENTE IMPORTANTE SEGUIR ESSA PARTE]
 Como se trata de um compomente que se comunica com libs externas, serão necessários fazer algumas (pouquissimas) modificações na sua pasta android.
@@ -13,7 +13,9 @@ Como se trata de um compomente que se comunica com libs externas, serão necess�
 4 - dentro da pasta app ainda, iremos precisar modificar o build.gradle, pois como ele utiliza libs de fora, também precisamos incluir no nosso package. No final do seu **android/app/build.gradle**, você irá colocar seguinte informação
 
 ```bash
-dependencies {
+- android/app/build.gradle
+dependencies {  
+    .... outras dependencias que você tiver no seu projeto ....
     implementation "androidx.startup:startup-runtime:1.0.0"
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
@@ -30,6 +32,10 @@ Este package tem como finalidade ajudar os desenvolvedores que precisam utilizar
 ```bash
 Mini PDV M8
 Mini PDV M10
+Virtual Printer - https://play.google.com/store/apps/details?id=pl.glpro.virtualthermalprinter (PAGO)
+EPSON TM-20 -  (Não funciona todas os modelos de impressão da impressao, mas aceita o esc pos)
+BLUETOOTH PT-380  - COMPEX (Não funciona muito bem o escpos e impressão de imagem)
+
 ```
 ### Portanto se você quiser ajudar a homologar mais aparelhos me contate para que possamos agilizar esse processo   
 
@@ -49,89 +55,43 @@ Mini PDV M10
 - [x] Pega versão da lib, status de papel, ejetor e da gaveta (caso tenha) 
 
 
-# Lista de enums #
+## No exemplo existe o teste de conexão para as 4 tipos de impressoras ##
+* Troque os IPs , Mac Address e modelo das impressoras para testar no seu ambiente.
 
-```dart
-class ElginAlign {
-  const ElginAlign._internal(this.value);
-  final int value;
-  static const LEFT = ElginAlign._internal(0);
-  static const CENTER = ElginAlign._internal(1);
-  static const RIGHT = ElginAlign._internal(2);
-}
-
-class ElginSize {
-  const ElginSize._internal(this.value);
-  final int value;
-  static const MD = ElginSize._internal(0);
-  static const LG = ElginSize._internal(16);
-  static const XL = ElginSize._internal(24);
-}
-
-class ElginFont {
-  const ElginFont._internal(this.value);
-  final int value;
-  static const FONTA = ElginFont._internal(0);
-  static const FONTB = ElginFont._internal(1);
-  static const UNDERLINE = ElginFont._internal(2);
-  static const BOLD = ElginFont._internal(8);
-  static const REVERSE = ElginFont._internal(4);
-}
-
-
-class ElginQrcodeSize {
-  const ElginQrcodeSize._internal(this.value);
-  final int value;
-  static const SIZE1 = ElginQrcodeSize._internal(1);
-  static const SIZE2 = ElginQrcodeSize._internal(2);
-  static const SIZE3 = ElginQrcodeSize._internal(3);
-  static const SIZE4 = ElginQrcodeSize._internal(4);
-  static const SIZE5 = ElginQrcodeSize._internal(5);
-  static const SIZE6 = ElginQrcodeSize._internal(6);
-}
-
-
-class ElginQrcodeCorrection {
-  const ElginQrcodeCorrection._internal(this.value);
-  final int value;
-  static const LEVEL_L = ElginQrcodeCorrection._internal(1);
-  static const LEVEL_M = ElginQrcodeCorrection._internal(2);
-  static const LEVEL_Q = ElginQrcodeCorrection._internal(3);
-  static const LEVEL_H = ElginQrcodeCorrection._internal(4);
-}
-
-
-class EliginBarcodeType {
-  const EliginBarcodeType._internal(this.value);
-  final int value;
-  static const UPCA = EliginBarcodeType._internal(0);
-  static const UPCE = EliginBarcodeType._internal(1);
-  static const JAN13 = EliginBarcodeType._internal(2);
-  static const JAN8 = EliginBarcodeType._internal(3);
-  static const CODE39 = EliginBarcodeType._internal(4);
-  static const ITF = EliginBarcodeType._internal(5);
-  static const CODEBAR = EliginBarcodeType._internal(6);
-  static const CODE93 = EliginBarcodeType._internal(7);
-  static const CODE128 = EliginBarcodeType._internal(8);
-}
-
-
-class ElginBarcodeTextPosition {
-  const ElginBarcodeTextPosition._internal(this.value);
-  final int value;
-  static const NO_TEXT = ElginBarcodeTextPosition._internal(4);
-  static const TEXT_ABOVE = ElginBarcodeTextPosition._internal(1);
-  static const TEXT_UNDER = ElginBarcodeTextPosition._internal(2);
-  static const BOTH = ElginBarcodeTextPosition._internal(3);
-}
-```
 
 **Tela com as funcionalidades de exemplo**
 <p align="left">
-  <img src="https://marcus.brasizza.com/imagens/example-elgin.png" width="450" title="Todas as funcionalidades">
+  <img src="https://marcus.brasizza.com/imagens/example-elgin.png"  
+  title="Todas as funcionalidades">
 </p>
 
+## Comandos básicos para conexão ##
 
+```dart
+    final _driver = ElginPrinter(
+        type: ElginPrinterType.TCP,
+        model: ElginPrinterModel.GENERIC_TCP,
+        connection: '192.168.5.111',
+        parameter: 9100,
+    );
+
+    ///OU UTILIZANDO DIRETO NO MINI PDV
+    final _driver = ElginPrinter(type: ElginPrinterType.MINIPDV);
+
+
+    final int? result = await Elgin.printer.connect(driver: driver);
+    if(result != null){
+      if(result == 0 ){
+        await Elgin.printer.printString('HELLO PRINTER';
+        await Elgin.printer.feed(2);
+        await Elgin.printer.cut(2);
+        await Elgin.printer.disconnect();
+      }
+    }
+
+    
+
+```
 
 Esse package te ajudou? quer mais coisas nele ou outros devices elgin? Me ajude a manter o projeto ativo e implementar novos equipamentos (que provavelmente terei que adquirir)
 

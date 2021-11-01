@@ -1,3 +1,13 @@
+## 0.1.0
+
+* Melhorias no código
+-   Melhorias de separação dos enums para uma por arquivo para facilidar o entendimento
+-   Criação de um componente *ElginPrinter* para configurar todos os parâmetros de impressoras disponíveis e enviar direto no método de conexão.
+-   Teste em algumas impressoras:
+    -   App de simulador de Impressora
+    -   Epson TM-T20 (rede) - Com ressalvas no readme!
+    -   Bluetooth da compex - Com ressalvas no readme!
+
 ## 0.0.1
 
 * Release do projeto inicial.

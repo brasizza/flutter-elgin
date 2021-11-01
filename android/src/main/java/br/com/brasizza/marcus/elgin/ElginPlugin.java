@@ -1,6 +1,8 @@
 package br.com.brasizza.marcus.elgin;
 
 import android.app.Activity;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import java.util.HashMap;
 
@@ -11,6 +13,10 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
+
+
 
 
 
@@ -24,16 +30,15 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
   private MethodChannel channel;
 
   private Activity activity;
-
   private Printer printer;
+  private BinaryMessenger binaryMessenger;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel  = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "elgin");
-    channel.setMethodCallHandler(this);
+        Log.d("elgin" , "onAttachedToEngine");
 
-
-
+    this.binaryMessenger = flutterPluginBinding.getBinaryMessenger();
+  
   }
 
   @Override
@@ -46,7 +51,8 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
       break;
 
       case "startInternalPrinter":
-        int resultPrinter = printer.printerInternalImpStart();
+        HashMap printerArgs = call.argument("printerArgs");
+        int resultPrinter = printer.printerInternalImpStart(printerArgs);
         result.success(resultPrinter);
         break;
 
@@ -162,8 +168,14 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
 
   @Override
 public void onAttachedToActivity(ActivityPluginBinding binding) {
+
     activity = binding.getActivity();
     printer = new Printer(activity);
+
+    channel  = new MethodChannel(this.binaryMessenger, "elgin");
+    channel.setMethodCallHandler(this);
+
+
 }
 
   @Override
@@ -173,7 +185,7 @@ public void  onDetachedFromActivity(){
 
 @Override
 public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
-    onAttachedToActivity(binding);
+  onAttachedToActivity(binding);
 }
 
 @Override

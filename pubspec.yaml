@@ -1,6 +1,6 @@
 name: elgin
 description: Este package tem como finalidade a comunicação de um jeito fácil com vários equipamentos elgin, como SAT, impressoras térmicas e mini PDVs
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/brasizza/flutter-elgin
 
 environment:
@@ -29,8 +29,8 @@ flutter:
       android:
         package: br.com.brasizza.marcus.elgin
         pluginClass: ElginPlugin
-      ios:
-        pluginClass: ElginPlugin
+      # ios:
+      #   pluginClass: ElginPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

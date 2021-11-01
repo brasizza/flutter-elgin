@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.util.Base64;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.elgin.e1.Impressora.Termica;
 import com.elgin.e1.Impressora.Utilidades.Inteiro;
@@ -16,23 +17,30 @@ public class Printer {
 
     public Printer(Activity activity) {
         this.mActivity = activity;
+        Termica.setActivity(this.mActivity);
+
     }
 
-    public int printerInternalImpStart() {
+    public int printerInternalImpStart(Map map) {
+        int typeImp =  (Integer) map.get("type");
+        String modelImp =  (String) map.get("model");
+        String connImp =  (String) map.get("connection");
+        int paramImp =  (Integer) map.get("param");
+
+        Log.d("elgin" ,"close connection");
         printerStop();
-        int result = Termica.AbreConexaoImpressora(6, "M8", "", 0);
+        Log.d("elgin" ,"printer closed");
+
+        Log.d("elgin" ,"typeImp = "+ typeImp);
+        Log.d("elgin" ,"modelImp = "+ modelImp);
+        Log.d("elgin" ,"connImp = "+ connImp);
+        Log.d("elgin" ,"paramImp = "+ paramImp);
+
+        int result = Termica.AbreConexaoImpressora(typeImp, modelImp, connImp, paramImp);
         return result;
     }
 
-    public int printerExternalImpStart(String ip, int port) {
-        printerStop();
-        try {
-            int result = Termica.AbreConexaoImpressora(3, "I9", ip, port);
-            return result;
-        }catch (Exception e){
-            return printerInternalImpStart();
-        }
-    }
+  
 
     public void printerStop() {
         Termica.FechaConexaoImpressora();
