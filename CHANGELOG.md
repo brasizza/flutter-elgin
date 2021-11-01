@@ -1,3 +1,6 @@
+## 0.1.3
+-   Correção do método de desconectar que estava chamando o mehotdChannel errado
+
 ## 0.1.2
 - Baixando o sdk para **minSdkVersion 21**
 - Inclusão de uma aba *Listagem de configurações disponíveis* no README para exemplificar todas classes e configurações disponíveis

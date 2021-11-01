@@ -20,6 +20,17 @@ dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
 ```
+
+### Talvez você tenha que usar o comando tools:replace para dar um override no android:icon pois o minipdv8 também está setando essa propriedade
+
+```xml
+ <application
+        android:name="io.flutter.app.FlutterApplication"
+        tools:replace="android:label,android:icon"
+        ... Resto do seu application aqui
+
+>
+
 e assim seu projeto estará funcionando.
 
 # Iniciando

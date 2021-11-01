@@ -42,7 +42,7 @@ class Printer {
   ///
   ///Disconnect the printer
   Future<int?> disconnect() async =>
-      await platform?.invokeMethod('printerStop') ?? 0;
+      await platform?.invokeMethod('stopPrinter') ?? 0;
 
   ///*customCashier
   ///
