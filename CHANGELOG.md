@@ -1,4 +1,4 @@
-## 0.1.5
+## 0.1.6
 -   Novas features!
 - [x] Impressão de um XML SAT-  **printSAT**
 - [x] Impressão de um XML NFCE (Precisa colocar o CSC, CSCID e um XML protocolado) - **printNFCE**
