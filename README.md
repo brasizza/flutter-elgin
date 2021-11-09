@@ -64,6 +64,10 @@ BLUETOOTH PT-380  - COMPEX (Não funciona muito bem o escpos e impressão de ima
 - [x] Desenha uma linha com o caractere customizável para separar áreas de impressão  - **line**
 - [x] Imprime uma imagem tanto vinda da web quanto de algum asset (ver exemplo) - **printImage**
 - [x] Pega versão da lib, status de papel, ejetor e da gaveta (caso tenha) 
+- [x] Impressão de um XML SAT-  **printSAT**
+- [x] Impressão de um XML NFCE (Precisa colocar o CSC, CSCID e um XML protocolado) - **printNFCE**
+- [x] Impressão de um Cupom TEF (No exemplo eu passo um base64 e converto antes de enviar para a lib) - **printTEF**
+- [x] Sistema de Exceptions onde eu mapeei quase todos os erros possíveis da elgin **ElginError**
 
 
 ## No exemplo existe o teste de conexão para as 4 tipos de impressoras ##

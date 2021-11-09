@@ -1,3 +1,6 @@
+## 0.1.7
+-Incremento do readme com as novas features
+
 ## 0.1.6
 -   Novas features!
 - [x] Impressão de um XML SAT-  **printSAT**
