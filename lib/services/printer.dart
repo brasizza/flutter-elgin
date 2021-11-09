@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:elgin/components/elgin_printer.dart';
 import 'package:elgin/components/enums.dart';
+import 'package:elgin/components/exceptions/elgin_exception.dart';
 import 'package:flutter/services.dart';
 
 ///*Printer
@@ -20,7 +21,12 @@ class Printer {
     mapParam['times'] = times;
     mapParam['st'] = st;
     mapParam['ft'] = ft;
-    return await platform?.invokeMethod("beep", {'beepArgs': mapParam});
+    int? _beep =
+        await platform?.invokeMethod("beep", {'beepArgs': mapParam}) ?? 9999;
+    if (_beep < 0) {
+      throw ElginException(_beep);
+    }
+    return _beep;
   }
 
   ///*connect
@@ -33,16 +39,71 @@ class Printer {
     mapParam['model'] = driver.model?.value ?? 'M8';
     mapParam['connection'] = driver.connection ?? '';
     mapParam['param'] = driver.parameter ?? 0;
-    return await platform
+    int? _connect = await platform
             ?.invokeMethod('startInternalPrinter', {'printerArgs': mapParam}) ??
-        0;
+        9999;
+    if (_connect < 0) {
+      throw ElginException(_connect);
+    }
+    return _connect;
   }
 
   ///*disconnect
   ///
   ///Disconnect the printer
-  Future<int?> disconnect() async =>
-      await platform?.invokeMethod('stopPrinter') ?? 0;
+  Future<int?> disconnect() async {
+    int? _disconnect = await platform?.invokeMethod('stopPrinter') ?? 9999;
+    if (_disconnect < 0) {
+      throw ElginException(_disconnect);
+    }
+  }
+
+  ///*printXMLSAT
+  ///
+  ///Print a SAT XML with some parameters
+  Future<int?> printSAT(String xml, {int param = 0}) async {
+    Map<String, dynamic> mapParam = new Map();
+    mapParam['xmlSAT'] = xml;
+    mapParam['param'] = param;
+    int? _printSAT =
+        await platform?.invokeMethod("printSAT", {'satArgs': mapParam}) ?? 9999;
+    if (_printSAT < 0) {
+      throw ElginException(_printSAT);
+    }
+    return _printSAT;
+  }
+
+  ///*printXMLSAT
+  ///
+  ///Print a SAT XML with some parameters
+  Future<int?> printNFCE(String xml, String csc, int cscId,
+      {int param = 0}) async {
+    Map<String, dynamic> mapParam = new Map();
+    mapParam['xmlNFCe'] = xml;
+    mapParam['indexcsc'] = cscId;
+    mapParam['csc'] = csc;
+    mapParam['param'] = param;
+    int? _printNfce =
+        await platform?.invokeMethod("printNFCE", {'nfceArgs': mapParam}) ??
+            9999;
+    if (_printNfce < 0) {
+      throw ElginException(_printNfce);
+    }
+    return _printNfce;
+  }
+
+  ///*printTEF
+  ///
+  ///Print a SAT XML with some parameters
+  Future<int?> printTEF(String cupomTEF) async {
+    int? _printTEF =
+        await platform?.invokeMethod("printTEF", {'cupomTEF': cupomTEF}) ??
+            9999;
+    if (_printTEF < 0) {
+      throw ElginException(_printTEF);
+    }
+    return _printTEF;
+  }
 
   ///*customCashier
   ///
@@ -52,27 +113,52 @@ class Printer {
     mapParam['pin'] = pin;
     mapParam['it'] = it;
     mapParam['dp'] = dp;
-    return await platform
-        ?.invokeMethod("customCashier", {'cashierArgs': mapParam});
+    int? _customCash = await platform
+            ?.invokeMethod("customCashier", {'cashierArgs': mapParam}) ??
+        9999;
+
+    if (_customCash < 0) {
+      throw ElginException(_customCash);
+    }
+    return _customCash;
   }
 
   ///*cut
   ///
   ///Cut a line and jump N lines before
-  Future<int> cut({int lines = 0}) async =>
-      await platform?.invokeMethod("cutPaper", {'lines': lines});
+  Future<int> cut({int lines = 0}) async {
+    int? _cut =
+        await platform?.invokeMethod("cutPaper", {'lines': lines}) ?? 9999;
+
+    if (_cut < 0) {
+      throw ElginException(_cut);
+    }
+    return _cut;
+  }
 
   ///*elginCashier
   ///
   ///If you have an elgin cashier, you can just open it with this!
-  Future<int> elginCashier() async =>
-      await platform?.invokeMethod('elginCashier');
+  Future<int> elginCashier() async {
+    int? _elginCash = await platform?.invokeMethod('elginCashier') ?? 9999;
+
+    if (_elginCash < 0) {
+      throw ElginException(_elginCash);
+    }
+    return _elginCash;
+  }
 
   ///*feed
   ///
   ///Jump n lines
-  Future<int> feed(int lines) async =>
-      await platform?.invokeMethod('feedLine', {'lines': lines});
+  Future<int> feed(int lines) async {
+    int? _feed =
+        await platform?.invokeMethod('feedLine', {'lines': lines}) ?? 9999;
+    if (_feed < 0) {
+      throw ElginException(_feed);
+    }
+    return _feed;
+  }
 
   ///*libVersion
   ///
@@ -105,8 +191,13 @@ class Printer {
     mapParam['align'] = align.value;
     mapParam['width'] = width;
     mapParam['textPosition'] = textPosition.value;
-    return await platform
-        ?.invokeMethod("printBarCode", {'barcodeArgs': mapParam});
+    int? _barcode = await platform
+            ?.invokeMethod("printBarCode", {'barcodeArgs': mapParam}) ??
+        9999;
+    if (_barcode < 0) {
+      throw ElginException(_barcode);
+    }
+    return _barcode;
   }
 
   ///*printImage
@@ -117,7 +208,13 @@ class Printer {
     Map<String, dynamic> mapParam = new Map();
     mapParam['path'] = image.path;
     mapParam['isBase64'] = isBase64;
-    return await platform?.invokeMethod('printImage', {'imageArgs': mapParam});
+    int? _image =
+        await platform?.invokeMethod('printImage', {'imageArgs': mapParam}) ??
+            9999;
+    if (_image < 0) {
+      throw ElginException(_image);
+    }
+    return _image;
   }
 
   ///*printQRCode
@@ -135,8 +232,13 @@ class Printer {
     mapParam['align'] = align.value;
     mapParam['correction'] = correction.value;
     mapParam['text'] = text;
-    return await platform
-        ?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam});
+    int? _qrcode =
+        await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam}) ??
+            9999;
+    if (_qrcode < 0) {
+      throw ElginException(_qrcode);
+    }
+    return _qrcode;
   }
 
   ///*printRaw
@@ -148,7 +250,13 @@ class Printer {
     Uint8List _list = Uint8List.fromList(rawList);
     mapParam['data'] = _list;
     mapParam['bytes'] = _list.lengthInBytes;
-    return await platform?.invokeMethod('printRaw', {'rawArgs': mapParam});
+    int? _raw =
+        await platform?.invokeMethod('printRaw', {'rawArgs': mapParam}) ?? 9999;
+
+    if (_raw < 0) {
+      throw ElginException(_raw);
+    }
+    return _raw;
   }
 
   ///*printString
@@ -170,8 +278,12 @@ class Printer {
     mapParam['isUnderline'] = isUnderline;
     mapParam['font'] = font.value;
     mapParam['fontSize'] = fontSize.value;
-    final _print =
-        await platform?.invokeMethod('printText', {"textArgs": mapParam});
+    int? _print =
+        await platform?.invokeMethod('printText', {"textArgs": mapParam}) ??
+            9999;
+    if (_print < 0) {
+      throw ElginException(_print);
+    }
     feed(1);
     return _print;
   }
@@ -180,26 +292,47 @@ class Printer {
   ///
   ///This will just reset to the default status of the printer and will not clean any buffer
   Future<int> reset() async {
-    return await platform?.invokeMethod('reset');
+    int? _reset = await platform?.invokeMethod('reset') ?? 9999;
+
+    if (_reset < 0) {
+      throw ElginException(_reset);
+    }
+    return _reset;
   }
 
   ///*statusCashier
   ///
   ///Check if there is a chasier in the device or if it's working and everything else
-  Future<int> statusCashier() async =>
-      await platform?.invokeMethod('statusCashier');
+  Future<int> statusCashier() async {
+    int? _status = await platform?.invokeMethod('statusCashier') ?? 9999;
+    if (_status < 0) {
+      throw ElginException(_status);
+    }
+    return _status;
+  }
 
   ///*statusEjetor
   ///
   ///Check the status of the ejector hardware
-  Future<int> statusEjetor() async =>
-      await platform?.invokeMethod('statusEjector');
+  Future<int> statusEjetor() async {
+    int? _status = await platform?.invokeMethod('statusEjector') ?? 9999;
+    if (_status < 0) {
+      throw ElginException(_status);
+    }
+    return _status;
+  }
 
   ///*statusSensor
   ///
   ///Check the status of the paper sensor hardware
-  Future<int> statusSensor() async =>
-      await platform?.invokeMethod('statusSensor');
+  Future<int> statusSensor() async {
+    int? _status = await platform?.invokeMethod('statusSensor') ?? 9999;
+
+    if (_status < 0) {
+      throw ElginException(_status);
+    }
+    return _status;
+  }
 
   ///*instance
   ///

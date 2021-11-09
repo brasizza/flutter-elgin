@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:elgin/services/printer.dart';
 import 'package:flutter/services.dart';
 export 'package:elgin/components/enums.dart';
+export 'package:elgin/components/exceptions/elgin_exception.dart';
 
 ///*platform
 ///

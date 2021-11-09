@@ -156,6 +156,27 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
         result.success(versionReturn);
         break;
 
+
+      case "printSAT":
+        HashMap satArgs = call.argument("satArgs");
+        int xmlSatReturn = printer.imprimeXMLSAT(satArgs);
+        result.success(xmlSatReturn);
+        break;
+
+
+      case "printNFCE":
+        HashMap nfceArgs = call.argument("nfceArgs");
+        int xmlNfceReturn = printer.imprimeXMLNFCe(nfceArgs);
+        result.success(xmlNfceReturn);
+        break;
+
+
+      case "printTEF":
+       String cupomTEF =  (String) call.argument("cupomTEF");
+        int tefReturn = printer.imprimeCupomTEF(cupomTEF);
+        result.success(tefReturn);
+        break;
+
     }
 
   }

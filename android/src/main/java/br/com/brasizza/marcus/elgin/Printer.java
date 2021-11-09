@@ -138,10 +138,8 @@ public class Printer {
         return Termica.ImprimeXMLSAT(xml, param);
     }
 
-    public int imprimeCupomTEF(Map map){
-        String base64 = (String) map.get("base64");
-
-        return Termica.ImprimeCupomTEF(base64);
+    public int imprimeCupomTEF(String cupomTEF){
+        return Termica.ImprimeCupomTEF(cupomTEF);
     }
 
     public int statusGaveta() {
