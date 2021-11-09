@@ -1,4 +1,23 @@
 ## 0.1.5
+-   Novas features!
+- [x] Impressão de um XML SAT-  **printSAT**
+- [x] Impressão de um XML NFCE (Precisa colocar o CSC, CSCID e um XML protocolado) - **printNFCE**
+- [x] Impressão de um Cupom TEF (No exemplo eu passo um base64 e converto antes de enviar para a lib) - **printTEF**
+- Sistema de Exceptions onde eu mapeei quase todos os erros possíveis da elgin
+Um sistema de Exceptions feito para mapear a maiora das mensagens de erro da lib
+```dart
+ try {
+    await Elgin.printer.cut();
+    } on ElginException catch (e) {
+        ///onde
+        ///type = codigo em string do erro ex: PORTA_FECHADA
+        print(e.error.type) ;
+        ///message = texto detalhado em português ex: Porta de comunicação está fechada.
+        print(e.error.message) ; 
+    }
+```
+
+## 0.1.5
 -   Limpeza do código do package, removendo arquivos desnecessários
 ## 0.1.4
 -   Correção do README
