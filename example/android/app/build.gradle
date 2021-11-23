@@ -52,8 +52,9 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.startup:startup-runtime:1.0.0"
     implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation "androidx.startup:startup-runtime:1.0.0"
+
 }
 
 
