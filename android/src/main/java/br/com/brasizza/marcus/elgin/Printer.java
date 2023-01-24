@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.elgin.e1.Impressora.Termica;
-import com.elgin.e1.Impressora.Utilidades.Inteiro;
+import com.elgin.e1.Impressora.Utilidades.RetornoPOS;
 
 import java.io.File;
 import java.util.Map;
@@ -96,7 +96,7 @@ public class Printer {
     public int printRaw(Map map) {
         byte[]  dataRaw =  (byte[]) map.get("data");
         int totalbytes = (Integer) map.get("bytes");
-        Inteiro leu = new Inteiro(1);
+        RetornoPOS leu = new RetornoPOS(1);
         byte[] ler = new byte[1000];
         int ret =  Termica.DirectIO(dataRaw,totalbytes , ler, leu);
         return ret;

@@ -1,3 +1,8 @@
+## 0.1.8
+-Incremento do gradle para compileSdkVersion 32 e targetSdkVersion 32
+-Atualização da lib da elgin para e1-V02.15.01 
+-Nenhum breakchange
+
 ## 0.1.7
 -Incremento do readme com as novas features
 
