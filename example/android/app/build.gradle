@@ -25,13 +25,13 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "br.com.brasizza.marcus.elgin_example"
         minSdkVersion 24
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
          
@@ -52,7 +52,7 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.startup:startup-runtime:1.0.0"
+    implementation "androidx.startup:startup-runtime:1.1.1"
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
 

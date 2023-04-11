@@ -1,3 +1,9 @@
+## 0.1.9
+-Incremento do gradle para compileSdkVersion 33 
+-Atualização da lib da elgin para e1-V02.16.00 
+-Nenhum breakchange
+-Upgrade de gradle e de alguns packages internos do android
+
 ## 0.1.8
 -Incremento do gradle para compileSdkVersion 32 e targetSdkVersion 32
 -Atualização da lib da elgin para e1-V02.15.01 

@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:elgin/components/elgin_printer.dart';
+
 import 'package:elgin/components/enums.dart';
 import 'package:elgin/components/exceptions/elgin_exception.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +55,8 @@ class Printer {
     if (_disconnect < 0) {
       throw ElginException(_disconnect);
     }
+
+    return _disconnect;
   }
 
   ///*printXMLSAT

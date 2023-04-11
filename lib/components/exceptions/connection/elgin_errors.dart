@@ -9,7 +9,6 @@ class ElginError {
     this.code,
   ) {
     switch (code) {
-
       /// GER_Erro_Conexao
 
       case -2:

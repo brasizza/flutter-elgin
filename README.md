@@ -16,7 +16,7 @@ Como se trata de um compomente que se comunica com libs externas, serão necess�
 - android/app/build.gradle
 dependencies {  
     .... outras dependencias que você tiver no seu projeto ....
-    implementation "androidx.startup:startup-runtime:1.0.0"
+    implementation "androidx.startup:startup-runtime:1.1.0"
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
 ```
