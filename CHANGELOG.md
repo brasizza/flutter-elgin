@@ -1,4 +1,8 @@
 ## 0.2.0
+-Incremento do gradle para compileSdkVersion 34 no core do android 
+Tks to [Shelmo](https://github.com/Shelmo)
+
+## 0.2.0
 -Incremento do gradle para compileSdkVersion 33 no core do android
 
 -Incremento na versão do sdk pra 4.0.0
