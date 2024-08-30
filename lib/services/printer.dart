@@ -51,7 +51,10 @@ class Printer {
   ///
   ///Disconnect the printer
   Future<int?> disconnect() async {
-    int? _disconnect = await platform?.invokeMethod('stopPrinter') ?? 9999;
+    int? _disconnect =
+        ((await platform?.invokeMethod('stopPrinter') ?? false) == false
+            ? -1
+            : 9999);
     if (_disconnect < 0) {
       throw ElginException(_disconnect);
     }

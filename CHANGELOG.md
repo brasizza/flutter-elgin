@@ -1,4 +1,7 @@
-## 0.2.0
+## 0.2.2
+- Corrigido o disconnect que retornava um booleano mas era tratado como inteiro, dando crash de exception
+
+## 0.2.1
 -Incremento do gradle para compileSdkVersion 34 no core do android 
 Tks to [Shelmo](https://github.com/Shelmo)
 
