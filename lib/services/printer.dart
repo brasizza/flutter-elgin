@@ -20,7 +20,8 @@ class Printer {
     mapParam['times'] = times;
     mapParam['st'] = st;
     mapParam['ft'] = ft;
-    int? beep = await platform?.invokeMethod("beep", {'beepArgs': mapParam}) ?? 9999;
+    int? beep =
+        await platform?.invokeMethod("beep", {'beepArgs': mapParam}) ?? 9999;
     if (beep < 0) {
       throw ElginException(beep);
     }
@@ -37,7 +38,11 @@ class Printer {
     mapParam['model'] = driver.model?.value ?? 'M8';
     mapParam['connection'] = driver.connection ?? '';
     mapParam['param'] = driver.parameter ?? 0;
-    int? connect = await platform?.invokeMethod('startInternalPrinter', {'printerArgs': mapParam}) ?? 9999;
+    int? connect =
+        await platform?.invokeMethod('startInternalPrinter', {
+          'printerArgs': mapParam,
+        }) ??
+        9999;
     if (connect < 0) {
       throw ElginException(connect);
     }
@@ -48,7 +53,10 @@ class Printer {
   ///
   ///Disconnect the printer
   Future<int?> disconnect() async {
-    int? disconnect = ((await platform?.invokeMethod('stopPrinter') ?? false) == false ? -1 : 9999);
+    int? disconnect =
+        ((await platform?.invokeMethod('stopPrinter') ?? false) == false
+        ? -1
+        : 9999);
     if (disconnect < 0) {
       throw ElginException(disconnect);
     }
@@ -63,7 +71,8 @@ class Printer {
     Map<String, dynamic> mapParam = {};
     mapParam['xmlSAT'] = xml;
     mapParam['param'] = param;
-    int? printSAT = await platform?.invokeMethod("printSAT", {'satArgs': mapParam}) ?? 9999;
+    int? printSAT =
+        await platform?.invokeMethod("printSAT", {'satArgs': mapParam}) ?? 9999;
     if (printSAT < 0) {
       throw ElginException(printSAT);
     }
@@ -73,13 +82,20 @@ class Printer {
   ///*printXMLSAT
   ///
   ///Print a SAT XML with some parameters
-  Future<int?> printNFCE(String xml, String csc, int cscId, {int param = 0}) async {
+  Future<int?> printNFCE(
+    String xml,
+    String csc,
+    int cscId, {
+    int param = 0,
+  }) async {
     Map<String, dynamic> mapParam = {};
     mapParam['xmlNFCe'] = xml;
     mapParam['indexcsc'] = cscId;
     mapParam['csc'] = csc;
     mapParam['param'] = param;
-    int? printNfce = await platform?.invokeMethod("printNFCE", {'nfceArgs': mapParam}) ?? 9999;
+    int? printNfce =
+        await platform?.invokeMethod("printNFCE", {'nfceArgs': mapParam}) ??
+        9999;
     if (printNfce < 0) {
       throw ElginException(printNfce);
     }
@@ -90,7 +106,9 @@ class Printer {
   ///
   ///Print a SAT XML with some parameters
   Future<int?> printTEF(String cupomTEF) async {
-    int? printTEF = await platform?.invokeMethod("printTEF", {'cupomTEF': cupomTEF}) ?? 9999;
+    int? printTEF =
+        await platform?.invokeMethod("printTEF", {'cupomTEF': cupomTEF}) ??
+        9999;
     if (printTEF < 0) {
       throw ElginException(printTEF);
     }
@@ -105,7 +123,11 @@ class Printer {
     mapParam['pin'] = pin;
     mapParam['it'] = it;
     mapParam['dp'] = dp;
-    int? customCash = await platform?.invokeMethod("customCashier", {'cashierArgs': mapParam}) ?? 9999;
+    int? customCash =
+        await platform?.invokeMethod("customCashier", {
+          'cashierArgs': mapParam,
+        }) ??
+        9999;
 
     if (customCash < 0) {
       throw ElginException(customCash);
@@ -117,7 +139,8 @@ class Printer {
   ///
   ///Cut a line and jump N lines before
   Future<int> cut({int lines = 0}) async {
-    int? cut = await platform?.invokeMethod("cutPaper", {'lines': lines}) ?? 9999;
+    int? cut =
+        await platform?.invokeMethod("cutPaper", {'lines': lines}) ?? 9999;
 
     if (cut < 0) {
       throw ElginException(cut);
@@ -141,7 +164,8 @@ class Printer {
   ///
   ///Jump n lines
   Future<int> feed(int lines) async {
-    int? feed = await platform?.invokeMethod('feedLine', {'lines': lines}) ?? 9999;
+    int? feed =
+        await platform?.invokeMethod('feedLine', {'lines': lines}) ?? 9999;
     if (feed < 0) {
       throw ElginException(feed);
     }
@@ -151,7 +175,8 @@ class Printer {
   ///*libVersion
   ///
   ///Show the version that the software is using at this moment
-  Future<String> get libVersion async => await platform?.invokeMethod('libVersion');
+  Future<String> get libVersion async =>
+      await platform?.invokeMethod('libVersion');
 
   ///*line
   ///
@@ -163,7 +188,14 @@ class Printer {
   ///*printBarCode
   ///
   ///Print a bar code with every [barcodeType] avaliable with size and [textPosition] , but some printers dont't allow that
-  Future<int> printBarCode(String text, {EliginBarcodeType barcodeType = EliginBarcodeType.JAN8, ElginAlign align = ElginAlign.RIGHT, int height = 50, int width = 6, ElginBarcodeTextPosition textPosition = ElginBarcodeTextPosition.NO_TEXT}) async {
+  Future<int> printBarCode(
+    String text, {
+    EliginBarcodeType barcodeType = EliginBarcodeType.JAN8,
+    ElginAlign align = ElginAlign.RIGHT,
+    int height = 50,
+    int width = 6,
+    ElginBarcodeTextPosition textPosition = ElginBarcodeTextPosition.NO_TEXT,
+  }) async {
     await reset();
     Map<String, dynamic> mapParam = {};
     mapParam['barCodeType'] = barcodeType.value;
@@ -172,7 +204,11 @@ class Printer {
     mapParam['align'] = align.value;
     mapParam['width'] = width;
     mapParam['textPosition'] = textPosition.value;
-    int? barcode = await platform?.invokeMethod("printBarCode", {'barcodeArgs': mapParam}) ?? 9999;
+    int? barcode =
+        await platform?.invokeMethod("printBarCode", {
+          'barcodeArgs': mapParam,
+        }) ??
+        9999;
     if (barcode < 0) {
       throw ElginException(barcode);
     }
@@ -187,7 +223,9 @@ class Printer {
     Map<String, dynamic> mapParam = {};
     mapParam['path'] = image.path;
     mapParam['isBase64'] = isBase64;
-    int? image0 = await platform?.invokeMethod('printImage', {'imageArgs': mapParam}) ?? 9999;
+    int? image0 =
+        await platform?.invokeMethod('printImage', {'imageArgs': mapParam}) ??
+        9999;
     if (image0 < 0) {
       throw ElginException(image0);
     }
@@ -197,14 +235,21 @@ class Printer {
   ///*printQRCode
   ///
   ///Print a qrcode with some [correction], [align]  and [size]
-  Future<int> printQRCode(String text, {ElginQrcodeSize size = ElginQrcodeSize.SIZE4, ElginAlign align = ElginAlign.CENTER, ElginQrcodeCorrection correction = ElginQrcodeCorrection.LEVEL_M}) async {
+  Future<int> printQRCode(
+    String text, {
+    ElginQrcodeSize size = ElginQrcodeSize.SIZE4,
+    ElginAlign align = ElginAlign.CENTER,
+    ElginQrcodeCorrection correction = ElginQrcodeCorrection.LEVEL_M,
+  }) async {
     await reset();
     Map<String, dynamic> mapParam = {};
     mapParam['size'] = size.value;
     mapParam['align'] = align.value;
     mapParam['correction'] = correction.value;
     mapParam['text'] = text;
-    int? qrcode = await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam}) ?? 9999;
+    int? qrcode =
+        await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam}) ??
+        9999;
     if (qrcode < 0) {
       throw ElginException(qrcode);
     }
@@ -220,7 +265,8 @@ class Printer {
     Uint8List list = Uint8List.fromList(rawList);
     mapParam['data'] = list;
     mapParam['bytes'] = list.lengthInBytes;
-    int? raw = await platform?.invokeMethod('printRaw', {'rawArgs': mapParam}) ?? 9999;
+    int? raw =
+        await platform?.invokeMethod('printRaw', {'rawArgs': mapParam}) ?? 9999;
 
     if (raw < 0) {
       throw ElginException(raw);
@@ -231,14 +277,29 @@ class Printer {
   ///*printString
   ///
   ///Just print a string in your paper with some [align], [fontSize], [font] and some others things
-  Future<int> printString(String text, {ElginAlign align = ElginAlign.LEFT, @Deprecated('Não tem efeito real nas impressoras Elgin e será removido em versões futuras.') bool isBold = false, @Deprecated('Não tem efeito real nas impressoras Elgin e será removido em versões futuras.') bool isUnderline = false, ElginFont font = ElginFont.FONTA, ElginSize fontSize = ElginSize.MD}) async {
+  Future<int> printString(
+    String text, {
+    ElginAlign align = ElginAlign.LEFT,
+    @Deprecated(
+      'Não tem efeito real nas impressoras Elgin e será removido em versões futuras.',
+    )
+    bool isBold = false,
+    @Deprecated(
+      'Não tem efeito real nas impressoras Elgin e será removido em versões futuras.',
+    )
+    bool isUnderline = false,
+    ElginFont font = ElginFont.FONTA,
+    ElginSize fontSize = ElginSize.MD,
+  }) async {
     await reset();
     Map<String, dynamic> mapParam = {};
     mapParam['text'] = text;
     mapParam['align'] = align.value;
     mapParam['font'] = font.value;
     mapParam['fontSize'] = fontSize.value;
-    int? print = await platform?.invokeMethod('printText', {"textArgs": mapParam}) ?? 9999;
+    int? print =
+        await platform?.invokeMethod('printText', {"textArgs": mapParam}) ??
+        9999;
     if (print < 0) {
       throw ElginException(print);
     }

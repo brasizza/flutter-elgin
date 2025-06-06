@@ -5,9 +5,7 @@ class ElginError {
   int code = 999;
   String type = "";
   String message = "";
-  ElginError(
-    this.code,
-  ) {
+  ElginError(this.code) {
     switch (code) {
       /// GER_Erro_Conexao
 

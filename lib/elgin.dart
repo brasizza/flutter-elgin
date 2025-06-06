@@ -23,5 +23,6 @@ class Elgin {
   ///*platformVersion
   ///
   ///Just a method to get the android version
-  static Future<String?> get platformVersion async => await platform.invokeMethod('getPlatformVersion');
+  static Future<String?> get platformVersion async =>
+      await platform.invokeMethod('getPlatformVersion');
 }
