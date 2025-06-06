@@ -1,3 +1,5 @@
+## 1.0.1
+ - Somente melhoria na documentacao interna do package
 ## 1.0.0
 - Package atualizado para dart 3.8.0
 - Package reformulado para usar kotlin ao inves de java 

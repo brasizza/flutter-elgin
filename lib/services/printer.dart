@@ -1,193 +1,218 @@
-import 'dart:io';
+import 'dart:io' show File;
 
 import 'package:elgin/components/enums.dart';
 import 'package:elgin/components/exceptions/elgin_exception.dart';
 import 'package:flutter/services.dart';
 
-///*Printer
+/// Classe principal para integração com impressoras Elgin.
 ///
-///This class willl implement everything that we can you with the printer
+/// Esta classe fornece métodos de alto nível para realizar operações com impressoras Elgin,
+/// incluindo impressão de textos, códigos de barras, QR Codes, imagens, abertura de gaveta,
+/// corte de papel, verificação de status e muito mais.
+///
+/// Instancie a classe utilizando o método estático [instance].
 class Printer {
   static MethodChannel? platform;
   static Printer? _instance;
+
   Printer._();
 
-  ///*beep
+  /// Emite um sinal sonoro (beep) na impressora, se suportado.
   ///
-  ///Just send a beep (some devices can't do that)
+  /// [times]: quantidade de vezes que o beep será emitido.
+  /// [st]: tempo de sinalização do beep.
+  /// [ft]: frequência do beep.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> beep(int times, int st, int ft) async {
-    Map<String, dynamic> mapParam = {};
-    mapParam['times'] = times;
-    mapParam['st'] = st;
-    mapParam['ft'] = ft;
-    int? beep =
+    final mapParam = {'times': times, 'st': st, 'ft': ft};
+    final beep =
         await platform?.invokeMethod("beep", {'beepArgs': mapParam}) ?? 9999;
-    if (beep < 0) {
-      throw ElginException(beep);
-    }
+    if (beep < 0) throw ElginException(beep);
     return beep;
   }
 
-  ///*connect
+  /// Conecta-se à impressora utilizando as informações do driver [ElginPrinter].
   ///
-  ///Connect the printer to use the methods below
+  /// Antes de executar qualquer operação, a impressora precisa estar conectada.
+  ///
+  /// [driver]: configuração da impressora a ser utilizada.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int?> connect({required ElginPrinter driver}) async {
-    Map<String, dynamic> mapParam = {};
-    mapParam['type'] = driver.type.value;
-    if (driver.type == ElginPrinterType.TCP) {}
-    mapParam['model'] = driver.model?.value ?? 'M8';
-    mapParam['connection'] = driver.connection ?? '';
-    mapParam['param'] = driver.parameter ?? 0;
-    int? connect =
+    final mapParam = {
+      'type': driver.type.value,
+      'model': driver.model?.value ?? 'M8',
+      'connection': driver.connection ?? '',
+      'param': driver.parameter ?? 0,
+    };
+    final connect =
         await platform?.invokeMethod('startInternalPrinter', {
           'printerArgs': mapParam,
         }) ??
         9999;
-    if (connect < 0) {
-      throw ElginException(connect);
-    }
+    if (connect < 0) throw ElginException(connect);
     return connect;
   }
 
-  ///*disconnect
+  /// Desconecta a impressora do sistema.
   ///
-  ///Disconnect the printer
+  /// É recomendável chamar este método ao encerrar o uso da impressora.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int?> disconnect() async {
-    int? disconnect =
+    final disconnect =
         ((await platform?.invokeMethod('stopPrinter') ?? false) == false
         ? -1
         : 9999);
-    if (disconnect < 0) {
-      throw ElginException(disconnect);
-    }
-
+    if (disconnect < 0) throw ElginException(disconnect);
     return disconnect;
   }
 
-  ///*printXMLSAT
+  /// Imprime um documento SAT a partir de um XML fornecido.
   ///
-  ///Print a SAT XML with some parameters
+  /// [xml]: conteúdo XML do SAT.
+  /// [param]: parâmetros opcionais para impressão.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int?> printSAT(String xml, {int param = 0}) async {
-    Map<String, dynamic> mapParam = {};
-    mapParam['xmlSAT'] = xml;
-    mapParam['param'] = param;
-    int? printSAT =
+    final mapParam = {'xmlSAT': xml, 'param': param};
+    final printSAT =
         await platform?.invokeMethod("printSAT", {'satArgs': mapParam}) ?? 9999;
-    if (printSAT < 0) {
-      throw ElginException(printSAT);
-    }
+    if (printSAT < 0) throw ElginException(printSAT);
     return printSAT;
   }
 
-  ///*printXMLSAT
+  /// Imprime um documento NFC-e a partir de um XML fornecido.
   ///
-  ///Print a SAT XML with some parameters
+  /// [xml]: conteúdo XML da NFC-e.
+  /// [csc]: código de segurança do contribuinte.
+  /// [cscId]: identificador do CSC.
+  /// [param]: parâmetros opcionais para impressão.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int?> printNFCE(
     String xml,
     String csc,
     int cscId, {
     int param = 0,
   }) async {
-    Map<String, dynamic> mapParam = {};
-    mapParam['xmlNFCe'] = xml;
-    mapParam['indexcsc'] = cscId;
-    mapParam['csc'] = csc;
-    mapParam['param'] = param;
-    int? printNfce =
+    final mapParam = {
+      'xmlNFCe': xml,
+      'indexcsc': cscId,
+      'csc': csc,
+      'param': param,
+    };
+    final printNfce =
         await platform?.invokeMethod("printNFCE", {'nfceArgs': mapParam}) ??
         9999;
-    if (printNfce < 0) {
-      throw ElginException(printNfce);
-    }
+    if (printNfce < 0) throw ElginException(printNfce);
     return printNfce;
   }
 
-  ///*printTEF
+  /// Imprime um cupom TEF a partir de um texto fornecido.
   ///
-  ///Print a SAT XML with some parameters
+  /// [cupomTEF]: texto do cupom a ser impresso.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int?> printTEF(String cupomTEF) async {
-    int? printTEF =
+    final printTEF =
         await platform?.invokeMethod("printTEF", {'cupomTEF': cupomTEF}) ??
         9999;
-    if (printTEF < 0) {
-      throw ElginException(printTEF);
-    }
+    if (printTEF < 0) throw ElginException(printTEF);
     return printTEF;
   }
 
-  ///*customCashier
+  /// Abre a gaveta de dinheiro personalizada.
   ///
-  ///If you can open the cashiers that is not elgin, you can set the configurations and open
+  /// Permite configurar pino, intervalo e duração de pulso para gavetas de outros fabricantes.
+  ///
+  /// [pin]: número do pino.
+  /// [it]: intervalo.
+  /// [dp]: duração do pulso.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> customCashier(int pin, int it, int dp) async {
-    Map<String, dynamic> mapParam = {};
-    mapParam['pin'] = pin;
-    mapParam['it'] = it;
-    mapParam['dp'] = dp;
-    int? customCash =
+    final mapParam = {'pin': pin, 'it': it, 'dp': dp};
+    final customCash =
         await platform?.invokeMethod("customCashier", {
           'cashierArgs': mapParam,
         }) ??
         9999;
-
-    if (customCash < 0) {
-      throw ElginException(customCash);
-    }
+    if (customCash < 0) throw ElginException(customCash);
     return customCash;
   }
 
-  ///*cut
+  /// Executa o corte do papel, pulando [lines] linhas antes de cortar.
   ///
-  ///Cut a line and jump N lines before
+  /// [lines]: número de linhas a avançar antes do corte.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> cut({int lines = 0}) async {
-    int? cut =
+    final cut =
         await platform?.invokeMethod("cutPaper", {'lines': lines}) ?? 9999;
-
-    if (cut < 0) {
-      throw ElginException(cut);
-    }
+    if (cut < 0) throw ElginException(cut);
     return cut;
   }
 
-  ///*elginCashier
+  /// Abre a gaveta de dinheiro padrão Elgin.
   ///
-  ///If you have an elgin cashier, you can just open it with this!
+  /// Use este método para gavetas compatíveis Elgin.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> elginCashier() async {
-    int? elginCash = await platform?.invokeMethod('elginCashier') ?? 9999;
-
-    if (elginCash < 0) {
-      throw ElginException(elginCash);
-    }
+    final elginCash = await platform?.invokeMethod('elginCashier') ?? 9999;
+    if (elginCash < 0) throw ElginException(elginCash);
     return elginCash;
   }
 
-  ///*feed
+  /// Avança [lines] linhas no papel da impressora.
   ///
-  ///Jump n lines
+  /// [lines]: quantidade de linhas para avançar.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> feed(int lines) async {
-    int? feed =
+    final feed =
         await platform?.invokeMethod('feedLine', {'lines': lines}) ?? 9999;
-    if (feed < 0) {
-      throw ElginException(feed);
-    }
+    if (feed < 0) throw ElginException(feed);
     return feed;
   }
 
-  ///*libVersion
+  /// Obtém a versão da biblioteca de integração em uso.
   ///
-  ///Show the version that the software is using at this moment
+  /// Retorna uma [String] com a versão atual da biblioteca.
   Future<String> get libVersion async =>
       await platform?.invokeMethod('libVersion');
 
-  ///*line
+  /// Imprime uma linha de caracteres para separação visual no papel.
   ///
-  ///Just draw a simple line to divide some sectors in your print
+  /// [ch]: caractere utilizado para desenhar a linha.
+  /// [len]: comprimento da linha.
   Future<void> line({String ch = '-', int len = 31}) async {
     await printString(List.filled(len, ch[0]).join());
   }
 
-  ///*printBarCode
+  /// Imprime um código de barras na impressora.
   ///
-  ///Print a bar code with every [barcodeType] avaliable with size and [textPosition] , but some printers dont't allow that
+  /// [text]: valor a ser codificado.
+  /// [barcodeType]: tipo do código de barras ([EliginBarcodeType]).
+  /// [align]: alinhamento na impressão.
+  /// [height]: altura do código.
+  /// [width]: largura do código.
+  /// [textPosition]: posição do texto sob o código de barras.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> printBarCode(
     String text, {
     EliginBarcodeType barcodeType = EliginBarcodeType.JAN8,
@@ -197,44 +222,49 @@ class Printer {
     ElginBarcodeTextPosition textPosition = ElginBarcodeTextPosition.NO_TEXT,
   }) async {
     await reset();
-    Map<String, dynamic> mapParam = {};
-    mapParam['barCodeType'] = barcodeType.value;
-    mapParam['text'] = text;
-    mapParam['height'] = height;
-    mapParam['align'] = align.value;
-    mapParam['width'] = width;
-    mapParam['textPosition'] = textPosition.value;
-    int? barcode =
+    final mapParam = {
+      'barCodeType': barcodeType.value,
+      'text': text,
+      'height': height,
+      'align': align.value,
+      'width': width,
+      'textPosition': textPosition.value,
+    };
+    final barcode =
         await platform?.invokeMethod("printBarCode", {
           'barcodeArgs': mapParam,
         }) ??
         9999;
-    if (barcode < 0) {
-      throw ElginException(barcode);
-    }
+    if (barcode < 0) throw ElginException(barcode);
     return barcode;
   }
 
-  ///*printImage
+  /// Imprime uma imagem a partir de um arquivo [File].
   ///
-  ///You can print an image from web or from asset very easy with a [File]
+  /// [image]: arquivo da imagem.
+  /// [isBase64]: se a imagem está codificada em base64.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> printImage(File image, bool isBase64) async {
     await reset();
-    Map<String, dynamic> mapParam = {};
-    mapParam['path'] = image.path;
-    mapParam['isBase64'] = isBase64;
-    int? image0 =
+    final mapParam = {'path': image.path, 'isBase64': isBase64};
+    final image0 =
         await platform?.invokeMethod('printImage', {'imageArgs': mapParam}) ??
         9999;
-    if (image0 < 0) {
-      throw ElginException(image0);
-    }
+    if (image0 < 0) throw ElginException(image0);
     return image0;
   }
 
-  ///*printQRCode
+  /// Imprime um QR Code com opções de alinhamento, tamanho e correção.
   ///
-  ///Print a qrcode with some [correction], [align]  and [size]
+  /// [text]: texto a ser codificado.
+  /// [size]: tamanho do QR Code.
+  /// [align]: alinhamento.
+  /// [correction]: nível de correção de erro.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> printQRCode(
     String text, {
     ElginQrcodeSize size = ElginQrcodeSize.SIZE4,
@@ -242,41 +272,48 @@ class Printer {
     ElginQrcodeCorrection correction = ElginQrcodeCorrection.LEVEL_M,
   }) async {
     await reset();
-    Map<String, dynamic> mapParam = {};
-    mapParam['size'] = size.value;
-    mapParam['align'] = align.value;
-    mapParam['correction'] = correction.value;
-    mapParam['text'] = text;
-    int? qrcode =
+    final mapParam = {
+      'size': size.value,
+      'align': align.value,
+      'correction': correction.value,
+      'text': text,
+    };
+    final qrcode =
         await platform?.invokeMethod("printQrcode", {'qrcodeArgs': mapParam}) ??
         9999;
-    if (qrcode < 0) {
-      throw ElginException(qrcode);
-    }
+    if (qrcode < 0) throw ElginException(qrcode);
     return qrcode;
   }
 
-  ///*printRaw
+  /// Envia um comando ESC/POS bruto diretamente para a impressora.
   ///
-  ///This method you can send a raw esc/pos string to the printer. see the example folder for more instructions how to do it!
+  /// Permite total controle sobre o hardware via comandos binários.
+  ///
+  /// [rawList]: lista de bytes a serem enviados.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> printRaw(List<int> rawList) async {
     await reset();
-    Map<String, dynamic> mapParam = {};
-    Uint8List list = Uint8List.fromList(rawList);
-    mapParam['data'] = list;
-    mapParam['bytes'] = list.lengthInBytes;
-    int? raw =
+    final list = Uint8List.fromList(rawList);
+    final mapParam = {'data': list, 'bytes': list.lengthInBytes};
+    final raw =
         await platform?.invokeMethod('printRaw', {'rawArgs': mapParam}) ?? 9999;
-
-    if (raw < 0) {
-      throw ElginException(raw);
-    }
+    if (raw < 0) throw ElginException(raw);
     return raw;
   }
 
-  ///*printString
+  /// Imprime uma string de texto na impressora, com opções de formatação.
   ///
-  ///Just print a string in your paper with some [align], [fontSize], [font] and some others things
+  /// [text]: texto a ser impresso.
+  /// [align]: alinhamento do texto ([ElginAlign]).
+  /// [isBold]: *DEPRECATED* - não possui efeito nas impressoras Elgin.
+  /// [isUnderline]: *DEPRECATED* - não possui efeito nas impressoras Elgin.
+  /// [font]: tipo da fonte.
+  /// [fontSize]: tamanho da fonte.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> printString(
     String text, {
     ElginAlign align = ElginAlign.LEFT,
@@ -292,70 +329,69 @@ class Printer {
     ElginSize fontSize = ElginSize.MD,
   }) async {
     await reset();
-    Map<String, dynamic> mapParam = {};
-    mapParam['text'] = text;
-    mapParam['align'] = align.value;
-    mapParam['font'] = font.value;
-    mapParam['fontSize'] = fontSize.value;
-    int? print =
+    final mapParam = {
+      'text': text,
+      'align': align.value,
+      'font': font.value,
+      'fontSize': fontSize.value,
+    };
+    final print =
         await platform?.invokeMethod('printText', {"textArgs": mapParam}) ??
         9999;
-    if (print < 0) {
-      throw ElginException(print);
-    }
+    if (print < 0) throw ElginException(print);
     feed(1);
     return print;
   }
 
-  ///*reset
+  /// Restaura as configurações padrão da impressora.
   ///
-  ///This will just reset to the default status of the printer and will not clean any buffer
+  /// Este método não limpa o buffer de impressão, apenas reseta os parâmetros.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> reset() async {
-    int? reset = await platform?.invokeMethod('reset') ?? 9999;
-
-    if (reset < 0) {
-      throw ElginException(reset);
-    }
+    final reset = await platform?.invokeMethod('reset') ?? 9999;
+    if (reset < 0) throw ElginException(reset);
     return reset;
   }
 
-  ///*statusCashier
+  /// Retorna o status atual da gaveta de dinheiro.
   ///
-  ///Check if there is a chasier in the device or if it's working and everything else
+  /// Útil para verificar se há uma gaveta conectada e operacional.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> statusCashier() async {
-    int? status = await platform?.invokeMethod('statusCashier') ?? 9999;
-    if (status < 0) {
-      throw ElginException(status);
-    }
+    final status = await platform?.invokeMethod('statusCashier') ?? 9999;
+    if (status < 0) throw ElginException(status);
     return status;
   }
 
-  ///*statusEjetor
+  /// Retorna o status do ejetor de papel, caso o hardware possua o recurso.
   ///
-  ///Check the status of the ejector hardware
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> statusEjetor() async {
-    int? status = await platform?.invokeMethod('statusEjector') ?? 9999;
-    if (status < 0) {
-      throw ElginException(status);
-    }
+    final status = await platform?.invokeMethod('statusEjector') ?? 9999;
+    if (status < 0) throw ElginException(status);
     return status;
   }
 
-  ///*statusSensor
+  /// Retorna o status do sensor de papel.
   ///
-  ///Check the status of the paper sensor hardware
+  /// Útil para checar se há papel disponível na impressora.
+  ///
+  /// Retorna o código de status da operação.
+  /// Lança [ElginException] em caso de erro.
   Future<int> statusSensor() async {
-    int? status = await platform?.invokeMethod('statusSensor') ?? 9999;
-
-    if (status < 0) {
-      throw ElginException(status);
-    }
+    final status = await platform?.invokeMethod('statusSensor') ?? 9999;
+    if (status < 0) throw ElginException(status);
     return status;
   }
 
-  ///*instance
+  /// Retorna a instância singleton da classe [Printer].
   ///
-  ///Grab same printer instance
+  /// [methodChannel]: canal de comunicação nativo com o plugin.
   static Printer instance(MethodChannel methodChannel) {
     platform = methodChannel;
     _instance ??= Printer._();

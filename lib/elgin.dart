@@ -6,23 +6,31 @@ import 'package:flutter/services.dart';
 export 'package:elgin/components/enums.dart';
 export 'package:elgin/components/exceptions/elgin_exception.dart';
 
-///*platform
+/// Canal de comunicação entre Dart e a plataforma Android.
 ///
-///channel between dart and android
+/// Este [MethodChannel] é utilizado para integrar chamadas nativas necessárias para os dispositivos Elgin.
 final platform = const MethodChannel('elgin');
 
-///*Elgin
+/// Classe principal de integração com dispositivos Elgin.
 ///
-///This class will all the possible istances to all te devices that i will implement in the future
+/// Centraliza o acesso às instâncias dos dispositivos suportados, como impressoras.
+/// Futuramente, outros dispositivos poderão ser integrados através desta mesma interface.
 class Elgin {
-  ///*printer
+  /// Instância singleton para operações com impressoras Elgin.
   ///
-  ///Printer instance to do all the things with printer
+  /// Utilize este getter para acessar todos os métodos relacionados à impressão.
+  ///
+  /// Exemplo:
+  /// ```dart
+  /// final status = await Elgin.printer.connect(driver: myPrinterConfig);
+  /// ```
   static Printer get printer => Printer.instance(platform);
 
-  ///*platformVersion
+  /// Obtém a versão do sistema operacional da plataforma Android.
   ///
-  ///Just a method to get the android version
+  /// Útil para exibir, registrar ou validar requisitos mínimos em tempo de execução.
+  ///
+  /// Retorna uma [String] com a versão do Android, ou `null` caso não seja possível obter a informação.
   static Future<String?> get platformVersion async =>
       await platform.invokeMethod('getPlatformVersion');
 }
