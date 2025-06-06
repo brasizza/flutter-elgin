@@ -6,11 +6,13 @@ Como se trata de um compomente que se comunica com libs externas, serão necess�
 
 1 - Na sua pasta android/app, mude o seu minSdk para 21 (**minSdkVersion 21**) , pois os componentes da elgin utilizam uma dependência que é necessário subir a versão.
 
-2 - Baixar a última versão do sdk que estiver disponivel [SDK E1](https://github.com/ElginDeveloperCommunity/PDV_Android_M8_M10/blob/9f8f39a340176170e6b011473b49dae19462bded/Bibliotecas/E1_impressora01.04.04_Android.zip) - **No momento desse readme a versão das libs está em v1.0.10**
+2 - Baixar a última versão do sdk que estiver disponivel [SDK E1](https://github.com/ElginDeveloperCommunity/PDV_Android_Elgin/tree/master/Bibliotecas) - **No momento desse readme a versão das libs está em v2.26.01**
 
 3 - ir no seu projeto , pasta **android/app** e criar uma pasta chamada **libs** e colocar todos os arquivos .aar lá dentro
 
 4 - dentro da pasta app ainda, iremos precisar modificar o build.gradle, pois como ele utiliza libs de fora, também precisamos incluir no nosso package. No final do seu **android/app/build.gradle**, você irá colocar seguinte informação
+
+# Caso ainda seja na versão antiga
 
 ```bash
 - android/app/build.gradle
@@ -20,15 +22,23 @@ dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
 }
 ```
+# Caso já esteja utilizando o build.gradle.kts
+```bash
+- android/app/build.gradle.kts
+dependencies{
+    implementation(files("libs/e1.aar"))
+    implementation(files("libs/minipdvm8.aar"))
+}
+```
 
 ### Talvez você tenha que usar o comando tools:replace para dar um override no android:icon pois o minipdv8 também está setando essa propriedade
 
 ```xml
- <application
-        android:name="io.flutter.app.FlutterApplication"
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+    <application
         tools:replace="android:label,android:icon"
         ... Resto do seu application aqui
-
 >
 ```
 
@@ -632,6 +642,9 @@ class ElginSize {
   static const MD = ElginSize._internal(0);
   static const LG = ElginSize._internal(16);
   static const XL = ElginSize._internal(24);
+  static ElginSize customFont({required int fontSize}) {
+    return ElginSize._internal(fontSize);
+  }
 }
 ```
 </details>

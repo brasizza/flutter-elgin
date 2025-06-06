@@ -10,7 +10,7 @@ class ElginSize {
   static const MD = ElginSize._internal(0);
   static const LG = ElginSize._internal(16);
   static const XL = ElginSize._internal(24);
-  static void customFont({required int fontSize}) {
-    ElginSize._internal(fontSize);
+  static ElginSize customFont({required int fontSize}) {
+    return ElginSize._internal(fontSize);
   }
 }

@@ -183,6 +183,18 @@ class _HomeState extends State<Home> {
                     },
                     child: const Text('Normal font'),
                   ),
+
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        await Elgin.printer.printString('Custom font', fontSize: ElginSize.customFont(fontSize: 90));
+                        await Elgin.printer.feed(2);
+                      } on ElginException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.error.message)));
+                      }
+                    },
+                    child: const Text('Custom font'),
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       try {

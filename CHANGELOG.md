@@ -1,3 +1,8 @@
+## 1.0.0
+- Package atualizado para dart 3.8.0
+- Package reformulado para usar kotlin ao inves de java 
+- Reformulação do README pra contemplar as mudancas feitas no app (agora build.gradle.kts)
+
 ## 0.2.2
 - Corrigido o disconnect que retornava um booleano mas era tratado como inteiro, dando crash de exception
 
