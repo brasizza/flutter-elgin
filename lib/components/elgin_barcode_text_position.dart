@@ -1,6 +1,9 @@
 ///*ElginBarcodeTextPosition
 ///
 ///Where in the barcode the text will be show
+library;
+// ignore_for_file: constant_identifier_names
+
 class ElginBarcodeTextPosition {
   const ElginBarcodeTextPosition._internal(this.value);
   final int value;

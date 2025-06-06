@@ -1,6 +1,9 @@
 ///*ElginPrinterModel
 ///
 ///Printers model
+library;
+// ignore_for_file: constant_identifier_names
+
 class ElginPrinterModel {
   const ElginPrinterModel._internal(this.value);
   final String value;

@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:elgin/services/printer.dart';
+import 'package:elgin/services/printer.dart' show Printer;
 import 'package:flutter/services.dart';
+
 export 'package:elgin/components/enums.dart';
 export 'package:elgin/components/exceptions/elgin_exception.dart';
 
@@ -22,6 +23,5 @@ class Elgin {
   ///*platformVersion
   ///
   ///Just a method to get the android version
-  static Future<String?> get platformVersion async =>
-      await platform.invokeMethod('getPlatformVersion');
+  static Future<String?> get platformVersion async => await platform.invokeMethod('getPlatformVersion');
 }

@@ -1,6 +1,9 @@
 ///*EliginBarcodeType
 ///
 ///All the barcode types to print any barcode
+library;
+// ignore_for_file: constant_identifier_names
+
 class EliginBarcodeType {
   const EliginBarcodeType._internal(this.value);
   final int value;

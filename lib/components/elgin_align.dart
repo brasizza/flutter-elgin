@@ -1,6 +1,9 @@
 ///*ElginAlign
 ///
 ///Class to set the alignment to the objects in the paper
+library;
+// ignore_for_file: constant_identifier_names
+
 class ElginAlign {
   const ElginAlign._internal(this.value);
   final int value;

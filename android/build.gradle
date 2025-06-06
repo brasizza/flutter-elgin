@@ -1,39 +1,70 @@
-group 'br.com.brasizza.marcus.elgin'
-version '1.0'
+group = "br.com.brasizza.marcus.elgin"
+version = "1.0-SNAPSHOT"
 
 buildscript {
+    ext.kotlin_version = "2.1.0"
     repositories {
         google()
         mavenCentral()
-
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.3.2'
+        classpath("com.android.tools.build:gradle:8.7.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
         mavenCentral()
     }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
 
 android {
-    compileSdk 34
-    defaultConfig {
-        minSdkVersion 21
-        if (project.android.hasProperty('namespace')) {
-            namespace 'br.com.brasizza.marcus.elgin'
-        }
+    namespace = "br.com.brasizza.marcus.elgin"
+
+    compileSdk = 35
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
 
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    defaultConfig {
+        minSdk = 21
+    }
+
+    dependencies {
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.mockito:mockito-core:5.0.0")
+
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
 }
-
 dependencies {
     implementation('com.journeyapps:zxing-android-embedded:4.3.0')
     implementation 'com.google.zxing:core:3.4.1'
@@ -42,9 +73,7 @@ dependencies {
 
 
 
-    implementation 'org.apache.commons:commons-lang3:3.9'
+    // implementation 'org.apache.commons:commons-lang3:3.9'
     compileOnly fileTree(include: ['*.aar'], dir: 'libs')
 
 }
-
-

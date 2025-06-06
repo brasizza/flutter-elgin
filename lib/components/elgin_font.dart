@@ -1,6 +1,9 @@
 ///*ElginFont
 ///
 ///Change the font
+library;
+// ignore_for_file: constant_identifier_names
+
 class ElginFont {
   const ElginFont._internal(this.value);
   final int value;

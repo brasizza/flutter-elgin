@@ -1,6 +1,9 @@
 ///*ElginQrcodeCorrection
 ///
 ///Qrcode correction between low and high
+library;
+// ignore_for_file: constant_identifier_names
+
 class ElginQrcodeCorrection {
   const ElginQrcodeCorrection._internal(this.value);
   final int value;
