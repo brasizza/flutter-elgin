@@ -43,13 +43,17 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    switch(call.method){
-      default:
-        result.notImplemented();
-      case "getPlatformVersion":
-       result.success("Android " + android.os.Build.VERSION.RELEASE);
-      break;
+    if (call.method.equals("getPlatformVersion")) {
+      result.success("Android " + android.os.Build.VERSION.RELEASE);
+      return;
+    }
 
+    if (printer == null) {
+      result.error("PRINTER_UNAVAILABLE", "A biblioteca da Elgin não está disponível ou não foi inicializada corretamente.", null);
+      return;
+    }
+
+    switch (call.method) {
       case "startInternalPrinter":
         HashMap printerArgs = call.argument("printerArgs");
         int resultPrinter = printer.printerInternalImpStart(printerArgs);
@@ -172,32 +176,39 @@ public class ElginPlugin implements FlutterPlugin, MethodCallHandler , ActivityA
 
 
       case "printTEF":
-       String cupomTEF =  (String) call.argument("cupomTEF");
+        String cupomTEF = (String) call.argument("cupomTEF");
         int tefReturn = printer.imprimeCupomTEF(cupomTEF);
         result.success(tefReturn);
         break;
 
+      default:
+        result.notImplemented();
+        break;
     }
 
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
+    if (channel != null) {
+      channel.setMethodCallHandler(null);
+    }
   }
 
 
   @Override
-public void onAttachedToActivity(ActivityPluginBinding binding) {
-
+  public void onAttachedToActivity(ActivityPluginBinding binding) {
     activity = binding.getActivity();
-    printer = new Printer(activity);
+    try {
+      printer = new Printer(activity);
+    } catch (Throwable t) {
+      Log.e("elgin", "Erro ao inicializar a impressora Elgin: " + t.getMessage());
+      printer = null;
+    }
 
-    channel  = new MethodChannel(this.binaryMessenger, "elgin");
+    channel = new MethodChannel(this.binaryMessenger, "elgin");
     channel.setMethodCallHandler(this);
-
-
-}
+  }
 
   @Override
 public void  onDetachedFromActivity(){
